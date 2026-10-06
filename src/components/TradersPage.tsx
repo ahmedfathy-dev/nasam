@@ -137,6 +137,12 @@ function TradersPage() {
     }))
   }
 
+  function addBankTransferMethod() {
+    setDraft((current) => current.methods.includes('تحويل بنكي')
+      ? current
+      : { ...current, methods: [...current.methods, 'تحويل بنكي'] })
+  }
+
   return (
     <div className="traders-page" dir="rtl">
       {screen === 'list' ? (
@@ -189,7 +195,7 @@ function TradersPage() {
           </section>
         </>
       ) : (
-        <MerchantForm draft={draft} onChange={updateDraft} onToggleMethod={toggleMethod} onBack={() => setScreen('list')} onSubmit={saveMerchant} />
+        <MerchantForm draft={draft} onChange={updateDraft} onToggleMethod={toggleMethod} onAddBankTransfer={addBankTransferMethod} onBack={() => setScreen('list')} onSubmit={saveMerchant} />
       )}
 
       {successOpen && <SuccessDialog onClose={() => setSuccessOpen(false)} onAddAnother={() => { setSuccessOpen(false); startCreate() }} />}
@@ -201,10 +207,11 @@ function Metric({ label, value, detail, accent }: { label: string; value: string
   return <article className="merchant-metric"><span>{label}</span><strong className={`metric-${accent}`}>{value}</strong><small>{detail}</small></article>
 }
 
-function MerchantForm({ draft, onChange, onToggleMethod, onBack, onSubmit }: {
+function MerchantForm({ draft, onChange, onToggleMethod, onAddBankTransfer, onBack, onSubmit }: {
   draft: MerchantDraft
   onChange: <Key extends keyof MerchantDraft>(key: Key, value: MerchantDraft[Key]) => void
   onToggleMethod: (method: string) => void
+  onAddBankTransfer: () => void
   onBack: () => void
   onSubmit: (event: FormEvent<HTMLFormElement>) => void
 }) {
@@ -239,7 +246,7 @@ function MerchantForm({ draft, onChange, onToggleMethod, onBack, onSubmit }: {
             <div className="merchant-methods">
               {paymentMethods.map((method) => <label className="merchant-method" key={method}><input type="checkbox" checked={draft.methods.includes(method)} onChange={() => onToggleMethod(method)} /><span className="merchant-check"><Check size={10} /></span><span>{method}</span><input className="merchant-method-account" aria-label={`بيانات ${method}`} placeholder={method === 'تحويل بنكي' ? 'اسم البنك / رقم الحساب' : 'رقم المحفظة / الحساب'} /></label>)}
             </div>
-            <button className="merchant-add-method" type="button" onClick={() => onToggleMethod('تحويل بنكي')}><Plus size={12} />إضافة وسيلة تحصيل أخرى</button>
+            <button className="merchant-add-method" type="button" onClick={onAddBankTransfer}><Plus size={12} />إضافة وسيلة تحصيل أخرى</button>
           </FormSection>
           <FormSection number="٤" title="حالة التاجر">
             <label className="merchant-active-toggle"><span><strong>تفعيل حساب التاجر</strong><small>سيتمكن التاجر من استقبال الحوالات فور تفعيل الحساب</small></span><input type="checkbox" checked={draft.active} onChange={(event) => onChange('active', event.target.checked)} /><i /></label>

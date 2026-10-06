@@ -165,7 +165,7 @@
 .merchant-fields-four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 .merchant-field { min-width: 0; display: grid; gap: 4px; color: #626b71; font-size: 8px; }
 .merchant-field b { color: #dc4848; font-weight: 500; }
-.merchant-field > input,
+.merchant-field > input { width: 100%; min-width: 0; height: 30px; padding: 0 8px; border: 1px solid #e5e8ea; border-radius: 6px; outline: 0; background: #f7f8f9; color: #454e55; font-size: 9px; }
 .merchant-field > .form-select-root { width: 100%; min-width: 0; }
 .merchant-section-hint { margin: -4px 0 8px; color: #899198; font-size: 8px; }
 .merchant-methods { display: grid; gap: 6px; }
