@@ -1,4 +1,5 @@
 import { Bell, ChevronDown, ChevronLeft, Menu, Search, SlidersHorizontal } from 'lucide-react'
+import './DashboardHeader.css'
 
 type DashboardHeaderProps = {
   activePage: string

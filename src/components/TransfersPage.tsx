@@ -1,6 +1,7 @@
 import { useMemo, useRef, useState, type ChangeEvent, type ReactNode, type RefObject } from 'react'
-import { AlertCircle, ArrowRight, ArrowUpFromLine, Check, ChevronDown, ChevronLeft, ChevronRight, CircleCheck, Download, FileSpreadsheet, FileText, ImagePlus, Plus, Search, Upload, X } from 'lucide-react'
+import { AlertCircle, ArrowRight, ArrowUpFromLine, Check, ChevronLeft, ChevronRight, CircleCheck, Download, FileSpreadsheet, FileText, ImagePlus, Plus, Search, Upload, X } from 'lucide-react'
 import { initialTransfers, transferCountries, transferCurrencies, type Transfer } from '../data/transfersData'
+import FormSelect from './FormSelect'
 import './TransfersPage.css'
 
 type FormValues = {
@@ -248,10 +249,10 @@ function TransferList({ transfers, notice, search, country, currency, status, pe
       <section className="transfer-list-panel">
         <div className="transfer-filters">
           <label className="transfer-search"><Search size={14} /><input value={search} onChange={(event) => onSearch(event.target.value)} placeholder="بحث برقم الحوالة أو اسم المحول..." /></label>
-          <FilterSelect value={status} onChange={onStatus} options={['كل الحالات', 'مستوفاة', 'غير مستوفاة', 'مسودة']} />
-          <FilterSelect value={country} onChange={onCountry} options={['كل الدول', ...transferCountries]} />
-          <FilterSelect value={currency} onChange={onCurrency} options={['كل العملات', 'EGP', 'SAR', 'AED', 'TRY', 'JOD', 'OMR', 'KWD']} />
-          <FilterSelect value={period} onChange={onPeriod} options={['الفترة هذا الشهر', 'آخر 7 أيام', 'آخر 30 يومًا']} />
+          <FilterSelect ariaLabel="حالة الحوالة" value={status} onChange={onStatus} options={['كل الحالات', 'مستوفاة', 'غير مستوفاة', 'مسودة']} />
+          <FilterSelect ariaLabel="الدولة" value={country} onChange={onCountry} options={['كل الدول', ...transferCountries]} />
+          <FilterSelect ariaLabel="العملة" value={currency} onChange={onCurrency} options={['كل العملات', 'EGP', 'SAR', 'AED', 'TRY', 'JOD', 'OMR', 'KWD']} />
+          <FilterSelect ariaLabel="الفترة" value={period} onChange={onPeriod} options={['الفترة هذا الشهر', 'آخر 7 أيام', 'آخر 30 يومًا']} />
         </div>
         <div className="transfer-table-wrap">
           <table className="transfer-table">
@@ -276,8 +277,8 @@ function TransferList({ transfers, notice, search, country, currency, status, pe
   )
 }
 
-function FilterSelect({ value, options, onChange }: { value: string; options: string[]; onChange: (value: string) => void }) {
-  return <label className="transfer-select"><select value={value} onChange={(event) => onChange(event.target.value)}>{options.map((option) => <option key={option}>{option}</option>)}</select><ChevronDown size={12} /></label>
+function FilterSelect({ value, options, onChange, ariaLabel }: { value: string; options: string[]; onChange: (value: string) => void; ariaLabel: string }) {
+  return <FormSelect className="transfer-select" ariaLabel={ariaLabel} value={value} onChange={onChange} options={options.map((option) => ({ label: option, value: option }))} />
 }
 
 type TransferFormProps = {
@@ -311,9 +312,9 @@ function TransferFormPage({ form, receiptName, amount, commission, netAmount, us
           </FormSection>
           <FormSection number="٢" title="الدولة والتاجر">
             <div className="transfer-fields two-fields">
-              <Field label="الدولة" required><select value={form.country} onChange={(event) => onFormChange('country', event.target.value)}>{transferCountries.map((item) => <option key={item}>{item}</option>)}</select></Field>
-              <Field label="التاجر" required><select value={form.merchant} onChange={(event) => onFormChange('merchant', event.target.value)}><option>محمد سامي</option><option>مؤسسة الريان</option><option>دار الخير</option><option>نور التجارية</option></select></Field>
-              <Field label="وسيلة التحويل"><select value={form.method} onChange={(event) => onFormChange('method', event.target.value)}><option>Vodafone Cash</option><option>InstaPay</option><option>Bank Transfer</option><option>STC Pay</option></select></Field>
+              <Field label="الدولة" required><FormSelect className="form-select-field" ariaLabel="الدولة" required value={form.country} onChange={(value) => onFormChange('country', value)} options={transferCountries.map((item) => ({ label: item, value: item }))} /></Field>
+              <Field label="التاجر" required><FormSelect className="form-select-field" ariaLabel="التاجر" required value={form.merchant} onChange={(value) => onFormChange('merchant', value)} options={['محمد سامي', 'مؤسسة الريان', 'دار الخير', 'نور التجارية'].map((item) => ({ label: item, value: item }))} /></Field>
+              <Field label="وسيلة التحويل"><FormSelect className="form-select-field" ariaLabel="وسيلة التحويل" value={form.method} onChange={(value) => onFormChange('method', value)} options={['Vodafone Cash', 'InstaPay', 'Bank Transfer', 'STC Pay'].map((item) => ({ label: item, value: item }))} /></Field>
               <Field label="رقم الهاتف"><input value={form.phone} onChange={(event) => onFormChange('phone', event.target.value)} dir="ltr" /></Field>
             </div>
           </FormSection>
@@ -321,7 +322,7 @@ function TransferFormPage({ form, receiptName, amount, commission, netAmount, us
             <div className="transfer-fields two-fields">
               <Field label="رقم الحوالة" required><input value={form.number} onChange={(event) => onFormChange('number', event.target.value)} dir="ltr" /></Field>
               <Field label="قيمة التحويل" required><input type="number" min="1" value={form.amount} onChange={(event) => onFormChange('amount', event.target.value)} dir="ltr" /></Field>
-              <Field label="العملة"><select value={form.currency} onChange={(event) => onFormChange('currency', event.target.value)}>{transferCurrencies.map((item) => <option key={item.code} value={item.code}>{item.code}</option>)}</select></Field>
+              <Field label="العملة"><FormSelect className="form-select-field" ariaLabel="العملة" value={form.currency} onChange={(value) => onFormChange('currency', value)} options={transferCurrencies.map((item) => ({ label: item.code, value: item.code }))} /></Field>
               <Field label="اسم المحول" required><input value={form.sender} onChange={(event) => onFormChange('sender', event.target.value)} /></Field>
               <Field label="تاريخ التحويل" required><input value={form.date} onChange={(event) => onFormChange('date', event.target.value)} dir="ltr" /></Field>
               <Field label="ملاحظات"><input value={form.note} onChange={(event) => onFormChange('note', event.target.value)} placeholder="اختياري" /></Field>

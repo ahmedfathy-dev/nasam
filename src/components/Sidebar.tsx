@@ -1,5 +1,6 @@
 import { ChevronDown, CircleHelp, LogOut } from 'lucide-react'
 import { navigation } from '../data/dashboardData'
+import './Sidebar.css'
 
 type SidebarProps = {
   activePage: string

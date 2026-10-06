@@ -1,4 +1,5 @@
 import { ArrowDownLeft, ArrowUpLeft, Ellipsis } from 'lucide-react'
+import './MetricCards.css'
 import { metrics } from '../data/dashboardData'
 
 function MetricCards() {

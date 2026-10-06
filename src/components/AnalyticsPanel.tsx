@@ -1,5 +1,6 @@
 import { ChevronLeft } from 'lucide-react'
 import { categories } from '../data/dashboardData'
+import './AnalyticsPanel.css'
 
 function AnalyticsPanel() {
   return (

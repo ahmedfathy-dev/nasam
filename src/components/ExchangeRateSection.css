@@ -1,0 +1,109 @@
+.exchange-section {
+  margin-bottom: 12px;
+}
+
+.exchange-heading {
+  min-height: 31px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 2px 6px;
+}
+
+.exchange-heading h2 {
+  color: #303b46;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.exchange-heading p {
+  margin-top: 1px;
+  color: #929aa2;
+  font-size: 8px;
+}
+
+.exchange-updated {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #8a9690;
+  font-size: 8px;
+  white-space: nowrap;
+}
+
+.exchange-updated i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #4caf45;
+}
+
+.exchange-rates {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  overflow: hidden;
+  border: 1px solid #e8ecef;
+  border-radius: 7px;
+  background: #fff;
+}
+
+.exchange-rate {
+  min-width: 0;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 6px 9px;
+  border-inline-start: 1px solid #edf0f2;
+}
+
+.exchange-rate:last-child {
+  border-inline-start: 0;
+}
+
+.exchange-currency,
+.exchange-value {
+  min-width: 0;
+  display: grid;
+  gap: 1px;
+}
+
+.exchange-currency strong {
+  color: #68737d;
+  font-size: 8px;
+  font-weight: 600;
+}
+
+.exchange-currency span {
+  overflow: hidden;
+  color: #9ba3aa;
+  font-size: 7px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.exchange-value {
+  justify-items: end;
+  text-align: left;
+}
+
+.exchange-value > strong {
+  color: #303b46;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.exchange-change {
+  display: inline-flex;
+  align-items: center;
+  gap: 1px;
+  font-size: 7px;
+  white-space: nowrap;
+}
+
+.trend-up { color: #4aa644; }
+.trend-down { color: #d28a55; }
+.trend-steady { color: #929aa2; }
+

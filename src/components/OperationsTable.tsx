@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import './OperationsTable.css'
 import { ChevronLeft, ChevronRight, Ellipsis, ShoppingBag } from 'lucide-react'
 import { operations } from '../data/dashboardData'
 

@@ -115,24 +115,16 @@
 .transfer-select {
   min-width: 0;
   height: 31px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 0 9px;
   border: 1px solid #e7eaed;
   border-radius: 6px;
   background: #f8f9fa;
   color: #929aa1;
 }
 
-.transfer-search:focus-within,
-.transfer-select:focus-within {
-  border-color: #c7d8e2;
-  background: #fff;
-}
+.transfer-search { display: flex; align-items: center; gap: 6px; padding: 0 9px; }
+.transfer-select { padding: 0; }
 
-.transfer-search input,
-.transfer-select select {
+.transfer-search input {
   width: 100%;
   min-width: 0;
   border: 0;
@@ -140,26 +132,6 @@
   background: transparent;
   color: #5d666d;
   font-size: 8px;
-}
-
-.transfer-search input::placeholder {
-  color: #9ba2a8;
-}
-
-.transfer-select {
-  position: relative;
-}
-
-.transfer-select select {
-  appearance: none;
-  height: 100%;
-  padding-inline-end: 2px;
-  cursor: pointer;
-}
-
-.transfer-select svg {
-  flex: 0 0 auto;
-  pointer-events: none;
 }
 
 .transfer-table-wrap {
@@ -431,7 +403,7 @@
 }
 
 .transfer-field > input,
-.transfer-field > select {
+.transfer-field > .form-select-root {
   width: 100%;
   min-width: 0;
   height: 30px;
@@ -442,16 +414,6 @@
   background: #f7f8f9;
   color: #454e55;
   font-size: 8px;
-}
-
-.transfer-field > input:focus,
-.transfer-field > select:focus {
-  border-color: #b8d8ad;
-  background: #fff;
-}
-
-.transfer-field > input::placeholder {
-  color: #a4abb0;
 }
 
 .transfer-form-actions {

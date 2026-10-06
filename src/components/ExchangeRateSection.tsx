@@ -1,4 +1,5 @@
 import { ArrowDownLeft, ArrowUpLeft } from 'lucide-react'
+import './ExchangeRateSection.css'
 import { exchangeRates } from '../data/dashboardData'
 
 function ExchangeRateSection() {

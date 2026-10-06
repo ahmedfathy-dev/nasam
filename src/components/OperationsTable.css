@@ -1,0 +1,169 @@
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  white-space: nowrap;
+}
+
+thead {
+  background: #fafbfc;
+}
+
+th {
+  height: 34px;
+  padding: 0 9px;
+  color: #929aa2;
+  font-size: 9px;
+  font-weight: 500;
+  text-align: right;
+}
+
+td {
+  height: 43px;
+  padding: 0 9px;
+  border-top: 1px solid #f0f2f4;
+  color: #59646e;
+  font-size: 9px;
+}
+
+tbody tr:hover {
+  background: #fbfdfe;
+}
+
+.transaction-id {
+  color: #3988b8;
+  font-family: 'Alexandria', sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+}
+
+.muted-cell {
+  color: #87919a;
+}
+
+.customer-cell {
+  color: #45515c;
+  font-weight: 600;
+}
+
+.customer-avatar {
+  width: 21px;
+  height: 21px;
+  display: inline-grid;
+  margin-inline-end: 6px;
+  font-size: 9px;
+  vertical-align: middle;
+}
+
+.type-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #6c7781;
+}
+
+.type-cell svg {
+  color: #9ca6ae;
+}
+
+.amount-cell {
+  color: #35404a;
+  font-family: 'Alexandria', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  unicode-bidi: plaintext;
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 7px;
+  border-radius: 10px;
+  font-size: 8px;
+}
+
+.status i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.status-complete { color: #43a444; background: #eff8ee; }
+.status-pending { color: #ca9134; background: #fff7e9; }
+.status-review { color: #478dbd; background: #edf6fc; }
+
+.row-action-cell {
+  position: relative;
+  width: 32px;
+  padding-inline: 4px;
+}
+
+.row-action {
+  width: 26px;
+  height: 26px;
+}
+
+.row-menu {
+  top: 27px;
+  inset-inline-start: 2px;
+}
+
+.table-footer {
+  min-height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 6px 12px;
+  border-top: 1px solid #edf0f2;
+  color: #929aa3;
+  font-size: 9px;
+}
+
+.table-footer strong {
+  color: #56616c;
+  font-weight: 600;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.pagination button {
+  width: 25px;
+  height: 25px;
+  display: grid;
+  place-items: center;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  color: #75808a;
+  cursor: pointer;
+  font-size: 9px;
+}
+
+.pagination button:hover,
+.pagination .page-current {
+  border-color: #d7ebf7;
+  background: #f0f8fd;
+  color: #218bcc;
+}
+
+.pagination > span {
+  color: #9ba3ab;
+}
+
+.empty-state {
+  padding: 25px 12px;
+  color: #929ba4;
+  text-align: center;
+}
+

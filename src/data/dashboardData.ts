@@ -15,7 +15,7 @@ import {
 export const navigation = [
   { label: 'لوحة التحكم', icon: LayoutDashboard },
   { label: 'الحوالات', icon: ArrowLeftRight },
-  { label: 'المستخدمون', icon: Users },
+  { label: 'التجار', icon: Users },
   { label: 'العملاء', icon: BriefcaseBusiness },
   { label: 'الموظفون', icon: ClipboardList },
   { label: 'التقارير', icon: FileBarChart },

@@ -1,3 +1,5 @@
+import './DashboardFooter.css'
+
 function DashboardFooter() {
   return (
     <footer className="dashboard-footer">

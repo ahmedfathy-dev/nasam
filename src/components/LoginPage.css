@@ -176,15 +176,8 @@
   gap: 10px;
   padding: 0 13px;
   border: 1px solid #e2e4e6;
-  border-radius: 9px;
   background: #f0f1f2;
   color: #8a8e92;
-  transition: border-color 140ms ease, background 140ms ease;
-}
-
-.login-input-wrap:focus-within {
-  border-color: #b6d7a7;
-  background: #fff;
 }
 
 .login-input-wrap input {
@@ -197,10 +190,6 @@
   background: transparent;
   color: #272b2e;
   font-size: 11px;
-}
-
-.login-input-wrap input::placeholder {
-  color: #9b9ea1;
 }
 
 .password-label {
@@ -251,7 +240,6 @@
   width: 16px;
   height: 16px;
   margin: 0;
-  accent-color: #48b32d;
 }
 
 .forgot-password {
@@ -277,7 +265,6 @@
 .login-submit {
   height: 48px;
   border: 1px solid #111315;
-  border-radius: 9px;
   background: #111315;
   color: #fff;
   cursor: pointer;

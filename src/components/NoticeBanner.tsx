@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Activity, X } from 'lucide-react'
+import './NoticeBanner.css'
 
 function NoticeBanner() {
   const [isVisible, setIsVisible] = useState(true)

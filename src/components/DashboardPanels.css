@@ -1,0 +1,50 @@
+.metric-card,
+.panel {
+  min-width: 0;
+  border: 1px solid #e9ecef;
+  border-radius: 7px;
+  background: var(--surface);
+  box-shadow: 0 2px 5px rgb(30 45 58 / 2%);
+}
+
+
+.panel-heading {
+  min-height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 11px 14px;
+  border-bottom: 1px solid #edf0f2;
+}
+
+.panel-heading h2 {
+  color: #303b46;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.panel-heading p {
+  margin-top: 2px;
+  color: #9aa2aa;
+  font-size: 9px;
+}
+
+.text-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 5px 2px;
+  border: 0;
+  background: transparent;
+  color: #2189c9;
+  cursor: pointer;
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+.text-button:hover {
+  color: #0b69a8;
+}
+
