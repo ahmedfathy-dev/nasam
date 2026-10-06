@@ -1,0 +1,63 @@
+@import 'tailwindcss';
+
+:root {
+  font-family: 'Alexandria', sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #202a35;
+  background: #f5f6f8;
+  color-scheme: light;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  --surface: #ffffff;
+  --canvas: #f5f6f8;
+  --text: #27313d;
+  --text-muted: #858e98;
+  --line: #e8ebee;
+  --blue: #178de0;
+  --green: #39ae39;
+  --orange: #df9b31;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  background: var(--canvas);
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  color: inherit;
+}
+
+#root {
+  width: 100%;
+  max-width: none;
+  min-height: 100vh;
+  margin: 0;
+  border: 0;
+  display: block;
+  text-align: start;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+h1,
+h2 {
+  font-weight: 500;
+  color: inherit;
+}
