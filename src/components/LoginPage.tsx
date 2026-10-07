@@ -22,11 +22,7 @@ function LoginPage({ onLogin }: LoginPageProps) {
     <main className="login-page" dir="rtl">
       <div className="login-shell">
         <section className="login-promo">
-          <div className="login-brand" dir="ltr">
-            <span className="login-brand-icon">N</span>
-            <span className="login-brand-name">NASAM</span>
-            <small>FINANCIAL SOLUTIONS</small>
-          </div>
+          <img className="login-brand-logo" src="/logo.png" alt="نسام" />
           <div className="promo-copy">
             <h1>نظام إدارة التجار<br /><span>والتحويلات المالية</span></h1>
             <p>مرجع مركزي لإدارة حساباتك وحوالاتك المالية بأمان ووضوح. تابع أعمالك اليومية من مكان واحد.</p>

@@ -57,41 +57,11 @@
   bottom: -130px;
 }
 
-.login-brand {
-  min-height: 54px;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  padding: 5px 9px;
-  border-radius: 8px;
-  background: rgb(243 245 244 / 82%);
-}
-
-.login-brand-icon {
-  width: 26px;
-  height: 26px;
-  display: grid;
-  place-items: center;
-  border-radius: 5px;
-  background: #55b52c;
-  color: #fff;
-  font-size: 17px;
-  font-weight: 700;
-}
-
-.login-brand-name {
-  color: #37a722;
-  font-size: 29px;
-  font-weight: 700;
-  line-height: 1;
-}
-
-.login-brand small {
-  align-self: flex-end;
-  margin: 0 0 7px -3px;
-  color: #51804a;
-  font-size: 5px;
-  font-weight: 600;
+.login-brand-logo {
+  display: block;
+  width: min(100%, 260px);
+  height: auto;
+  object-fit: contain;
 }
 
 .promo-copy {
@@ -343,18 +313,8 @@
     border-radius: 14px;
   }
 
-  .login-brand {
-    min-height: 44px;
-  }
-
-  .login-brand-icon {
-    width: 24px;
-    height: 24px;
-    font-size: 15px;
-  }
-
-  .login-brand-name {
-    font-size: 25px;
+  .login-brand-logo {
+    width: min(100%, 220px);
   }
 
   .promo-copy {

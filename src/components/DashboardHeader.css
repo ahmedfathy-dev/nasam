@@ -55,15 +55,7 @@
 }
 
 .search-box kbd {
-  flex: 0 0 auto;
-  padding: 1px 4px;
-  border: 1px solid #e7eaed;
-  border-radius: 3px;
-  color: #a3aab0;
-  background: #fff;
-  direction: ltr;
-  font-family: inherit;
-  font-size: 9px;
+  display: none;
 }
 
 .topbar-actions {

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Activity, X } from 'lucide-react'
+import { Info, X } from 'lucide-react'
 import './NoticeBanner.css'
 
 function NoticeBanner() {
@@ -8,8 +8,8 @@ function NoticeBanner() {
 
   return (
     <section className="notice-bar">
-      <span className="notice-icon"><Activity size={14} /></span>
-      <span>أداء أعمالك في تحسن مستمر، زادت الإيرادات بنسبة <strong>١٤٫٦٪</strong> مقارنة بالشهر الماضي</span>
+      <span className="notice-icon"><Info size={14} /></span>
+      <span>تم تحديث سعر صرف اليوم لحملة الليرة التركية (TRY) — إن تمكنت من التحويل مسبقاً ستحصل على سعر بنك عُمان</span>
       <button aria-label="إغلاق التنبيه" onClick={() => setIsVisible(false)}><X size={14} /></button>
     </section>
   )

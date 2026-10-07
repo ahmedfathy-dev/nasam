@@ -17,13 +17,17 @@
   overflow: hidden;
   border-radius: 5px;
   background: #eef1f3;
-  direction: ltr;
 }
 
-.segmented-bar span:nth-child(1) { width: 39%; background: #48b242; }
-.segmented-bar span:nth-child(2) { width: 26%; background: #178bd2; }
-.segmented-bar span:nth-child(3) { width: 18%; background: #43b7c3; }
-.segmented-bar span:nth-child(4) { flex: 1; background: #e4a641; }
+.segmented-bar span {
+  height: 100%;
+  display: block;
+}
+
+.segment-green { background: #48b242; }
+.segment-blue { background: #178bd2; }
+.segment-cyan { background: #43b7c3; }
+.segment-orange { background: #e4a641; }
 
 .category-list {
   display: flex;

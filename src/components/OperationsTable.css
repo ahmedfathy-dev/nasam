@@ -15,7 +15,7 @@ thead {
 
 th {
   height: 34px;
-  padding: 0 9px;
+  padding: 0 8px;
   color: #929aa2;
   font-size: 9px;
   font-weight: 500;
@@ -23,8 +23,8 @@ th {
 }
 
 td {
-  height: 43px;
-  padding: 0 9px;
+  height: 42px;
+  padding: 0 8px;
   border-top: 1px solid #f0f2f4;
   color: #59646e;
   font-size: 9px;
@@ -48,15 +48,6 @@ tbody tr:hover {
 .customer-cell {
   color: #45515c;
   font-weight: 600;
-}
-
-.customer-avatar {
-  width: 21px;
-  height: 21px;
-  display: inline-grid;
-  margin-inline-end: 6px;
-  font-size: 9px;
-  vertical-align: middle;
 }
 
 .type-cell {
@@ -166,4 +157,3 @@ tbody tr:hover {
   color: #929ba4;
   text-align: center;
 }
-

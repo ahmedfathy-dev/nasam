@@ -1,6 +1,6 @@
 .page-heading {
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 16px;
   margin-bottom: 17px;
@@ -13,16 +13,18 @@
 }
 
 .page-heading h1 {
-  color: #202b36;
+  color: #202b36;إ
   font-size: 21px;
   font-weight: 700;
   line-height: 1.4;
 }
 
 .page-heading p {
-  margin-top: 2px;
+  max-width: 560px;
+  margin-top: 4px;
   color: #89929b;
   font-size: 11px;
+  line-height: 1.6;
 }
 
 .heading-actions {
@@ -55,14 +57,14 @@
 }
 
 .primary-button {
-  border-color: #178bd2;
-  background: #168bd4;
+  border-color: #43a83d;
+  background: #43a83d;
   color: #fff;
 }
 
 .primary-button:hover {
-  border-color: #0879bd;
-  background: #087fc5;
+  border-color: #348f2f;
+  background: #348f2f;
 }
 
 .period-wrap {

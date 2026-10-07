@@ -1,0 +1,206 @@
+/* Shared merchant responsive helpers — desktop (>=1024) unchanged */
+
+.traders-page,
+.merchant-details-page,
+.settlements-history-page,
+.add-merchant-page {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: clip;
+}
+
+.merchant-details-page {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.merchant-details-page > *,
+.traders-page > *,
+.settlements-history-page > *,
+.add-merchant-page > * {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.merchant-mobile-cards {
+  display: none;
+  gap: 8px;
+  padding: 8px 0;
+}
+
+.merchant-card {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid var(--line, var(--line));
+  border-radius: 8px;
+  background: var(--surface, #fff);
+}
+
+.merchant-card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.merchant-card-head strong {
+  min-width: 0;
+  color: #343d44;
+  font-size: 12px;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.merchant-card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 10px;
+}
+
+.merchant-card-field {
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.merchant-card-field span {
+  color: var(--text-muted, var(--text-muted));
+  font-size: 9px;
+}
+
+.merchant-card-field b {
+  color: #454e55;
+  font-size: 11px;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.merchant-card-actions {
+  display: flex;
+  gap: 6px;
+  padding-top: 4px;
+  border-top: 1px solid #edf0f2;
+}
+
+.merchant-card-actions button {
+  min-width: 40px;
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  flex: 1;
+  border: 1px solid #e8ecef;
+  border-radius: 6px;
+  background: #fff;
+  color: #68727a;
+  cursor: pointer;
+  font-size: 10px;
+}
+
+.merchant-card-actions button.is-danger {
+  color: #d84949;
+}
+
+.merchant-pagination-mobile {
+  display: none;
+}
+
+@media (max-width: 1023px) {
+  .page-content:has(.traders-page),
+  .page-content:has(.merchant-details-page),
+  .page-content:has(.settlements-history-page),
+  .page-content:has(.add-merchant-page) {
+    padding: 24px;
+  }
+
+  .merchant-table-scroll,
+  .md-table-scroll {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+  }
+
+  .merchant-table th:first-child,
+  .merchant-table td:first-child,
+  .md-table th:first-child,
+  .md-table td:first-child {
+    position: sticky;
+    inset-inline-start: 0;
+    z-index: 1;
+    background: #fff;
+    box-shadow: -1px 0 0 #edf0f2;
+  }
+
+  .merchant-table thead th:first-child,
+  .md-table thead th:first-child {
+    background: #fafbfc;
+  }
+}
+
+@media (max-width: 639px) {
+  .page-content:has(.traders-page),
+  .page-content:has(.merchant-details-page),
+  .page-content:has(.settlements-history-page),
+  .page-content:has(.add-merchant-page) {
+    padding: 16px;
+  }
+
+  .merchant-desktop-table {
+    display: none !important;
+  }
+
+  .merchant-mobile-cards {
+    display: grid;
+  }
+
+  .merchant-pagination .page-num {
+    display: none;
+  }
+
+  .merchant-pagination-mobile {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #68727a;
+    font-size: 11px;
+  }
+
+  .merchant-row-actions button,
+  .md-btn,
+  .traders-primary-button,
+  .traders-tool-button,
+  .merchant-filter-shortcut {
+    min-height: 40px;
+  }
+
+  .merchant-row-actions button {
+    min-width: 40px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .merchant-search input,
+  .merchant-modal-field > input,
+  .sa-field > input,
+  .sa-field textarea,
+  .sa-input-prefix > input,
+  .md-filter-select .form-select-trigger {
+    font-size: 16px !important;
+  }
+
+  .md-header-copy h1,
+  .merchant-card-head strong,
+  .merchant-name {
+    overflow-wrap: anywhere;
+  }
+
+  .merchant-card.is-settled {
+    background: #f7f8f9;
+  }
+}

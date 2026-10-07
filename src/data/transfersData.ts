@@ -39,3 +39,149 @@ export const transferCurrencies = [
   { code: 'OMR', country: 'عُمان', rate: 0.385 },
   { code: 'KWD', country: 'الكويت', rate: 0.307 },
 ]
+
+export type TransferMerchantOption = {
+  name: string
+  country: string
+  status: 'نشط' | 'موقوف'
+  commissionType: 'percent' | 'fixed'
+  commissionValue: number
+  methods: Array<{
+    name: string
+    brand: 'vodafone' | 'instapay' | 'bank' | 'other'
+    accounts: string[]
+  }>
+}
+
+export const transferMerchants: TransferMerchantOption[] = [
+  {
+    name: 'محمد سامي',
+    country: 'مصر',
+    status: 'نشط',
+    commissionType: 'percent',
+    commissionValue: 2,
+    methods: [
+      { name: 'Vodafone Cash', brand: 'vodafone', accounts: ['01012345678', '01099887766'] },
+      { name: 'InstaPay', brand: 'instapay', accounts: ['msamy@instapay'] },
+    ],
+  },
+  {
+    name: 'نور التجارية',
+    country: 'مصر',
+    status: 'نشط',
+    commissionType: 'percent',
+    commissionValue: 2,
+    methods: [
+      { name: 'Vodafone Cash', brand: 'vodafone', accounts: ['0119083344'] },
+      { name: 'InstaPay', brand: 'instapay', accounts: ['noor@instapay'] },
+    ],
+  },
+  {
+    name: 'الهدى للصرافة',
+    country: 'مصر',
+    status: 'نشط',
+    commissionType: 'percent',
+    commissionValue: 2,
+    methods: [
+      { name: 'Vodafone Cash', brand: 'vodafone', accounts: ['01077776666'] },
+      { name: 'InstaPay', brand: 'instapay', accounts: ['huda@instapay'] },
+    ],
+  },
+  {
+    name: 'أفق للتحويلات',
+    country: 'مصر',
+    status: 'نشط',
+    commissionType: 'fixed',
+    commissionValue: 25,
+    methods: [
+      { name: 'Vodafone Cash', brand: 'vodafone', accounts: ['01122334455'] },
+    ],
+  },
+  {
+    name: 'بيت المال مصر',
+    country: 'مصر',
+    status: 'نشط',
+    commissionType: 'percent',
+    commissionValue: 1.75,
+    methods: [
+      { name: 'InstaPay', brand: 'instapay', accounts: ['bait@instapay'] },
+      { name: 'Bank Transfer', brand: 'bank', accounts: ['EG•••4410'] },
+    ],
+  },
+  {
+    name: 'سريع كاش',
+    country: 'مصر',
+    status: 'نشط',
+    commissionType: 'percent',
+    commissionValue: 2.25,
+    methods: [
+      { name: 'Vodafone Cash', brand: 'vodafone', accounts: ['01234567890', '01555551212'] },
+    ],
+  },
+  {
+    name: 'مؤسسة الريان',
+    country: 'السعودية',
+    status: 'نشط',
+    commissionType: 'percent',
+    commissionValue: 1.5,
+    methods: [
+      { name: 'STC Pay', brand: 'other', accounts: ['0554102200'] },
+      { name: 'Bank Transfer', brand: 'bank', accounts: ['SA•••2200'] },
+    ],
+  },
+  {
+    name: 'دار الخير',
+    country: 'الإمارات',
+    status: 'نشط',
+    commissionType: 'percent',
+    commissionValue: 2.5,
+    methods: [
+      { name: 'Bank Transfer', brand: 'bank', accounts: ['AE•••9012'] },
+    ],
+  },
+]
+
+export type ReceiptExtract = {
+  amount: string
+  receiver: string
+  sender: string
+  reference: string
+  dateTime: string
+}
+
+export async function extractReceiptData(file: File): Promise<ReceiptExtract> {
+  await new Promise((resolve) => window.setTimeout(resolve, 450))
+  void file
+  const now = new Date()
+  const dd = String(now.getDate()).padStart(2, '0')
+  const mm = String(now.getMonth() + 1).padStart(2, '0')
+  const yyyy = now.getFullYear()
+  const hh = String(now.getHours()).padStart(2, '0')
+  const min = String(now.getMinutes()).padStart(2, '0')
+  return {
+    amount: '12000',
+    receiver: '01012345678',
+    sender: 'أحمد يوسف',
+    reference: 'VF-88213409',
+    dateTime: `${dd}/${mm}/${yyyy} · ${hh}:${min}`,
+  }
+}
+
+const DRAFT_KEY = 'nasam-transfer-draft'
+
+export function saveTransferDraft(payload: unknown) {
+  window.localStorage.setItem(DRAFT_KEY, JSON.stringify(payload))
+}
+
+export function loadTransferDraft<T>(): T | null {
+  try {
+    const raw = window.localStorage.getItem(DRAFT_KEY)
+    return raw ? JSON.parse(raw) as T : null
+  } catch {
+    return null
+  }
+}
+
+export function clearTransferDraft() {
+  window.localStorage.removeItem(DRAFT_KEY)
+}

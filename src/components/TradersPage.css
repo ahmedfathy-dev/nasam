@@ -25,7 +25,7 @@
 .merchant-create-heading p {
   margin-top: 2px;
   color: #8b939a;
-  font-size: 9px;
+  font-size: 11px;
 }
 
 .traders-heading-actions {
@@ -46,7 +46,7 @@
   border: 1px solid transparent;
   border-radius: 6px;
   cursor: pointer;
-  font-size: 9px;
+  font-size: 10px;
   white-space: nowrap;
   transition: background 130ms ease, border-color 130ms ease;
 }
@@ -77,7 +77,7 @@
 }
 
 .merchant-metric > span,
-.merchant-metric small { color: #858e95; font-size: 8px; }
+.merchant-metric small { color: #858e95; font-size: 9px; }
 .merchant-metric strong { grid-column: 1; grid-row: 2; color: #242b31; font-size: 16px; font-weight: 500; line-height: 1.35; direction: ltr; text-align: right; }
 .merchant-metric small { grid-column: 2; grid-row: 2; align-self: end; padding-bottom: 2px; white-space: nowrap; }
 .merchant-metric .metric-green { color: #42a832; }
@@ -95,10 +95,10 @@
 
 .merchant-list-heading { min-height: 47px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #edf0f2; }
 .merchant-list-heading h2 { color: #343d44; font-size: 11px; font-weight: 600; }
-.merchant-list-heading p { margin-top: 1px; color: #939ba1; font-size: 8px; }
+.merchant-list-heading p { margin-top: 1px; color: #939ba1; font-size: 9px; }
 .merchant-live-count,
 .merchant-status { display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
-.merchant-live-count { color: #3f9a37; font-size: 8px; }
+.merchant-live-count { color: #3f9a37; font-size: 9px; }
 .merchant-live-count i,
 .merchant-status i { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
 
@@ -114,7 +114,7 @@
 .merchant-select,
 .merchant-filter-shortcut {
   min-width: 0;
-  height: 29px;
+  height: 36px;
   border: 1px solid #e7eaed;
   border-radius: 6px;
   background: #f8f9fa;
@@ -123,30 +123,31 @@
 
 .merchant-search { display: flex; align-items: center; gap: 6px; padding: 0 8px; }
 .merchant-select { padding: 0; }
-.merchant-search input { width: 100%; min-width: 0; border: 0; outline: 0; background: transparent; color: #5d666d; font-size: 8px; }
-.merchant-filter-shortcut { justify-content: center; padding-inline: 10px; color: #5d666d; cursor: pointer; font-size: 8px; white-space: nowrap; }
+.merchant-search input { width: 100%; min-width: 0; border: 0; outline: 0; background: transparent; color: #5d666d; font-size: 10px; }
+.traders-page .merchant-select .form-select-trigger { font-size: 10px; }
+.merchant-filter-shortcut { justify-content: center; padding-inline: 10px; color: #5d666d; cursor: pointer; font-size: 9px; white-space: nowrap; }
 
 .merchant-table-scroll { flex: 1; overflow: auto; }
-.merchant-table { width: 100%; min-width: 780px; border-collapse: collapse; white-space: nowrap; }
+.merchant-table { width: 100%; min-width: 860px; border-collapse: collapse; white-space: nowrap; }
 .merchant-table thead { background: #fafbfc; }
-.merchant-table th { height: 30px; padding: 0 7px; border-bottom: 1px solid #edf0f2; color: #929aa1; font-size: 7px; font-weight: 500; text-align: right; }
-.merchant-table td { height: 34px; padding: 0 7px; border-bottom: 1px solid #f0f2f4; color: #545d64; font-size: 7px; text-align: right; }
+.merchant-table th { height: 38px; padding: 0 9px; border-bottom: 1px solid #edf0f2; color: #929aa1; font-size: 9px; font-weight: 500; text-align: right; }
+.merchant-table td { height: 42px; padding: 0 9px; border-bottom: 1px solid #f0f2f4; color: #545d64; font-size: 10px; text-align: right; }
 .merchant-table tbody tr:hover { background: #fafcfd; }
 .merchant-table .merchant-name { color: #343d44; font-weight: 600; }
 .merchant-table .merchant-phone { direction: ltr; text-align: right; }
 .merchant-table .merchant-balance { color: #d58521; direction: ltr; text-align: right; }
-.merchant-status { padding: 3px 6px; border-radius: 12px; font-size: 7px; }
+.merchant-status { padding: 3px 7px; border-radius: 12px; font-size: 9px; }
 .merchant-status.is-active { background: #eaf6e8; color: #3f9a37; }
 .merchant-status.is-paused { background: #fdebec; color: #d84949; }
 .merchant-row-actions { display: flex; align-items: center; gap: 3px; direction: ltr; }
-.merchant-row-actions button { width: 18px; height: 18px; display: grid; place-items: center; border: 1px solid #e8ecef; border-radius: 4px; background: #fff; color: #879097; cursor: pointer; }
+.merchant-row-actions button { width: 22px; height: 22px; display: grid; place-items: center; border: 1px solid #e8ecef; border-radius: 4px; background: #fff; color: #879097; cursor: pointer; }
 .merchant-row-actions button:first-child { color: #df5252; }
 .merchant-row-actions button:hover { border-color: #d5dde2; background: #f8fafb; }
 .merchant-empty { height: 120px !important; color: #929aa1 !important; text-align: center !important; }
 
-.merchant-table-footer { min-height: 36px; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding-top: 4px; color: #858e95; font-size: 8px; }
+.merchant-table-footer { min-height: 42px; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding-top: 4px; color: #858e95; font-size: 10px; }
 .merchant-pagination { display: flex; align-items: center; gap: 3px; }
-.merchant-pagination button { min-width: 22px; height: 22px; display: grid; place-items: center; padding: 0 5px; border: 1px solid #e7eaed; border-radius: 5px; background: #fff; color: #68727a; cursor: pointer; font-size: 8px; }
+.merchant-pagination button { min-width: 26px; height: 26px; display: grid; place-items: center; padding: 0 5px; border: 1px solid #e7eaed; border-radius: 5px; background: #fff; color: #68727a; cursor: pointer; font-size: 9px; }
 .merchant-pagination button.is-current { border-color: #3eab29; background: #3eab29; color: #fff; }
 
 .merchant-breadcrumb { display: flex; align-items: center; gap: 4px; margin-bottom: 2px; color: #899198; font-size: 8px; }
@@ -213,34 +214,67 @@
 
 @keyframes merchant-dialog-in { from { opacity: 0; transform: translateY(5px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
-@media (max-width: 920px) {
+@media (max-width: 1023px) {
   .merchant-create-grid { grid-template-columns: minmax(0, 1fr) 250px; gap: 11px; }
   .merchant-fields-four { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-
-@media (max-width: 720px) {
   .traders-heading { align-items: flex-start; }
   .traders-heading h1 { font-size: 19px; }
-  .traders-heading p { max-width: 260px; font-size: 10px; }
-  .traders-heading-actions { gap: 5px; }
-  .traders-primary-button,
-  .traders-tool-button { min-height: 31px; padding-inline: 8px; font-size: 9px; }
+  .traders-heading p { max-width: 100%; font-size: 10px; }
+  .traders-heading-actions { gap: 5px; flex-wrap: wrap; }
   .merchant-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
   .merchant-metric { min-height: 67px; padding-inline: 9px; }
-  .merchant-list-panel { min-height: calc(100vh - 300px); padding-inline: 8px; }
-  .merchant-filters { grid-template-columns: minmax(0, 1fr) repeat(2, minmax(80px, .55fr)); }
-  .merchant-filter-shortcut { display: none; }
+  .merchant-list-panel { min-height: 0; padding-inline: 8px; }
+  .merchant-filters {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
+  }
+  .merchant-search { grid-column: 1 / -1; }
+  .merchant-filter-shortcut { grid-column: 1 / -1; }
   .merchant-create-grid { grid-template-columns: 1fr; }
   .merchant-preview-column { grid-row: 1; }
-  .merchant-preview-card { padding: 9px; }
-  .merchant-preview-line { min-height: 26px; }
+  .merchant-table-scroll { -webkit-overflow-scrolling: touch; }
 }
 
-@media (max-width: 500px) {
-  .traders-heading { flex-direction: column; gap: 11px; }
-  .traders-heading-actions { align-self: flex-start; }
-  .merchant-filters { grid-template-columns: 1fr 1fr; }
-  .merchant-search { grid-column: 1 / -1; }
+@media (max-width: 639px) {
+  .traders-heading {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 11px;
+    min-height: 0;
+  }
+  .traders-heading h1 { font-size: 18px; }
+  .traders-heading-actions {
+    width: 100%;
+    direction: rtl;
+  }
+  .traders-heading-actions .traders-primary-button,
+  .traders-heading-actions .traders-tool-button {
+    flex: 1;
+    min-height: 40px;
+  }
+  .merchant-metrics { grid-template-columns: 1fr; }
+  .merchant-filters {
+    grid-template-columns: 1fr 1fr;
+  }
+  .merchant-search { grid-column: 1 / -1; height: 40px; }
+  .merchant-select,
+  .merchant-filter-shortcut { height: 40px; }
+  .merchant-filter-shortcut { grid-column: 1 / -1; }
+  .merchant-table-footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    min-height: 0;
+    padding: 8px 0 4px;
+    text-align: center;
+  }
+  .merchant-pagination {
+    justify-content: center;
+    gap: 6px;
+  }
+  .merchant-pagination button {
+    min-width: 40px;
+    height: 40px;
+  }
   .merchant-fields,
   .merchant-fields-four { grid-template-columns: 1fr; }
   .merchant-form-panel { padding: 10px; }

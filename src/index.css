@@ -1,5 +1,25 @@
 @import 'tailwindcss';
 
+/* Design tokens — shared by legacy CSS (var(--*)) and Tailwind utilities */
+@theme {
+  --font-sans: 'Alexandria', sans-serif;
+  --color-surface: #ffffff;
+  --color-canvas: #f5f6f8;
+  --color-text: #27313d;
+  --color-text-muted: #858e98;
+  --color-line: #e8ebee;
+  --color-blue: #178de0;
+  --color-green: #39ae39;
+  --color-green-soft: #edf8eb;
+  --color-green-border: #cbe6c3;
+  --color-orange: #df9b31;
+  --color-danger: #d84949;
+  --color-danger-soft: #fff1f0;
+  --radius-sm: 8px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+}
+
 :root {
   font-family: 'Alexandria', sans-serif;
   font-size: 13px;
@@ -10,6 +30,7 @@
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+  /* Legacy aliases used by feature CSS — values match @theme exactly */
   --surface: #ffffff;
   --canvas: #f5f6f8;
   --text: #27313d;
@@ -17,7 +38,15 @@
   --line: #e8ebee;
   --blue: #178de0;
   --green: #39ae39;
+  --green-soft: #edf8eb;
+  --green-border: #cbe6c3;
   --orange: #df9b31;
+  --danger: #d84949;
+  --danger-soft: #fff1f0;
+  --radius-sm: 8px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --control-height: 40px;
 }
 
 * {

@@ -1,6 +1,5 @@
 .avatar,
-.topbar-avatar,
-.customer-avatar {
+.topbar-avatar {
   flex: 0 0 auto;
   display: grid;
   place-items: center;
@@ -30,9 +29,15 @@
 .icon-button:hover,
 .more-button:hover,
 .row-action:hover {
-  border-color: #e8edf0;
-  background: #f8fafb;
-  color: #178bd2;
+  border-color: #e5e5e5;
+  background: #f1f1f1;
+  color: #202a30;
+}
+
+.icon-button:hover svg,
+.more-button:hover svg,
+.row-action:hover svg {
+  color: #43a52e;
 }
 
 :is(.dashboard, .login-page) :is(input:not([type='checkbox']):not([type='radio']):not([type='file']), select, textarea) {
@@ -167,6 +172,27 @@
   background: #fff;
   box-shadow: 0 12px 30px rgb(30 45 58 / 15%);
   animation: form-select-in 120ms ease-out;
+}
+
+.dashboard .form-select-search {
+  width: 100%;
+  height: 32px;
+  margin-bottom: 4px;
+  padding: 0 9px;
+  border: 1px solid #e5e8ea;
+  border-radius: 6px;
+  outline: 0;
+  background: #f7f8f9;
+  color: #46515b;
+  font: inherit;
+  font-size: 11px;
+}
+
+.dashboard .form-select-empty {
+  padding: 10px 8px;
+  color: #8b949b;
+  font-size: 11px;
+  text-align: center;
 }
 
 .dashboard .form-select-option {

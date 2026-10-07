@@ -13,40 +13,18 @@
 }
 
 .brand {
-  height: 38px;
+  min-height: 46px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 5px;
   margin: 0 4px 25px;
-  direction: ltr;
 }
 
-.brand-mark {
-  width: 26px;
-  height: 26px;
-  display: grid;
-  place-items: center;
-  border-radius: 6px;
-  color: #fff;
-  background: #58b923;
-  font-size: 17px;
-  font-weight: 800;
-  line-height: 1;
-}
-
-.brand-name {
-  color: #38a92b;
-  font-size: 21px;
-  font-weight: 900;
-  letter-spacing: 0;
-}
-
-.brand-dot {
-  align-self: flex-start;
-  margin-top: 3px;
-  color: #128fe2;
-  font-size: 8px;
+.brand-logo {
+  display: block;
+  width: min(100%, 150px);
+  height: auto;
+  object-fit: contain;
 }
 
 .workspace-label {
@@ -57,6 +35,8 @@
 
 .side-nav {
   display: grid;
+  flex: 1;
+  align-content: start;
   gap: 3px;
 }
 
@@ -79,16 +59,23 @@
 }
 
 .nav-item:hover,
+.nav-item.nav-active {
+  background: #f1f1f1;
+  color: #202a30;
+}
+
+.nav-item:hover svg,
+.nav-item.nav-active svg {
+  color: #43a52e;
+}
+
+.nav-item.nav-active {
+  font-weight: 600;
+}
+
 .help-link:hover {
   background: #f7f9fb;
   color: #2789ce;
-}
-
-.nav-active {
-  border-color: transparent;
-  background: #f0f8fd;
-  color: #138bd4;
-  font-weight: 600;
 }
 
 .sidebar-bottom {
@@ -103,7 +90,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-top: 8px;
+  margin-top: auto;
   padding: 0 10px;
   border: 0;
   border-radius: 5px;
@@ -168,4 +155,3 @@
   color: #8e97a0;
   font-size: 10px;
 }
-
