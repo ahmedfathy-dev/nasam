@@ -1,7 +1,6 @@
 import type { ReactNode } from 'react'
 
-type ModalProps = {
-  children: ReactNode
+export type ModalShell = {
   onClose?: () => void
   /** Backdrop class — keep feature-specific classes for identical visuals */
   backdropClassName?: string
@@ -11,18 +10,20 @@ type ModalProps = {
   closeOnBackdrop?: boolean
 }
 
+type ModalProps = {
+  shell?: ModalShell
+  children: ReactNode
+}
+
 /**
- * Shared modal shell. Pass existing CSS class names so appearance stays unchanged.
- * Example: backdropClassName="transfer-modal-backdrop" panelClassName="transfer-modal review-modal"
+ * Shared modal shell. Configuration travels as one object; children stay as content.
  */
-function Modal({
-  children,
-  onClose,
-  backdropClassName = 'transfer-modal-backdrop',
-  panelClassName = 'transfer-modal',
-  labelledBy,
-  closeOnBackdrop = true,
-}: ModalProps) {
+function Modal({ shell, children }: ModalProps) {
+  const onClose = shell?.onClose
+  const backdropClassName = shell?.backdropClassName ?? 'transfer-modal-backdrop'
+  const panelClassName = shell?.panelClassName ?? 'transfer-modal'
+  const labelledBy = shell?.labelledBy
+  const closeOnBackdrop = shell?.closeOnBackdrop ?? true
   return (
     <div
       className={backdropClassName}

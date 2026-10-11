@@ -10,7 +10,13 @@ import {
   ArrowUpFromLine,
   ImagePlus,
 } from 'lucide-react'
+import { cn } from '@/lib/cn'
 import FormSelect from '../../components/ui/FormSelect'
+import {
+  transferCancelButtonClass,
+  transferFormSelectClass,
+  transferPrimaryButtonClass,
+} from './transferFieldClasses'
 import {
   clearTransferDraft,
   extractReceiptData,
@@ -45,7 +51,8 @@ type TransferFormCreateProps = {
   onImportExcel: () => void
 }
 
-function TransferFormCreate({ nextNumber, onCancel, onSaved, onDraftSaved, onError, onImportExcel }: TransferFormCreateProps) {
+function TransferFormCreate({ screen }: { screen: TransferFormCreateProps }) {
+  const { nextNumber, onCancel, onSaved, onDraftSaved, onError, onImportExcel } = screen
   const receiptInput = useRef<HTMLInputElement>(null)
   const [form, setForm] = useState<TransferFormValues>(() => {
     const draft = loadTransferDraft<{ form: TransferFormValues; receiptName: string }>()
@@ -303,52 +310,77 @@ function TransferFormCreate({ nextNumber, onCancel, onSaved, onDraftSaved, onErr
   const brand = method?.brand ?? 'other'
   const brandLabel = method?.name ?? '—'
   const brandClass = brand === 'vodafone' ? 'is-vodafone' : brand === 'instapay' ? 'is-instapay' : brand === 'bank' ? 'is-bank' : 'is-neutral'
+  const receiptPaperClass = cn(
+    'mx-auto w-[min(100%,260px)] overflow-hidden border border-[#e8eaeb] bg-[#f7f8f9] pb-3 text-center rounded-md',
+    brand === 'vodafone' && '[&_[data-receipt-brand]]:bg-[#e60000]',
+    brand === 'instapay' && '[&_[data-receipt-brand]]:bg-blue',
+    brand === 'bank' && '[&_[data-receipt-brand]]:bg-[#3f4850]',
+  )
 
   return (
     <>
-      <div className="transfer-create-heading">
+      <div
+        className={cn(
+          'mb-4 flex flex-col items-start justify-between gap-4 py-[7px]',
+          'min-[701px]:flex-row min-[701px]:py-0',
+        )}
+      >
         <div>
-          <nav className="transfer-breadcrumb" aria-label="مسار الصفحة">
-            <button type="button" onClick={askCancel}>الحوالات</button>
+          <nav className="mb-1.5 flex items-center gap-[5px] text-[11px] text-text-muted" aria-label="مسار الصفحة">
+            <button type="button" className="cursor-pointer border-0 bg-transparent font-[inherit] text-inherit" onClick={askCancel}>الحوالات</button>
             <span aria-hidden="true">/</span>
-            <strong>تسجيل حوالة جديدة</strong>
+            <strong className="font-semibold text-[#4b5662]">تسجيل حوالة جديدة</strong>
           </nav>
-          <h1>تسجيل حوالة جديدة</h1>
-          <p>أدخل بيانات الحوالة يدويًا وأرفق صورة الإيصال كإثبات للتحويل</p>
+          <h1 className="text-[28px] font-bold text-[#1f2730]">تسجيل حوالة جديدة</h1>
+          <p className="mt-1.5 max-w-[540px] text-[12px] leading-[1.6] text-text-muted">أدخل بيانات الحوالة يدويًا وأرفق صورة الإيصال كإثبات للتحويل</p>
         </div>
-        <button type="button" className="transfer-excel-button" onClick={onImportExcel}>
+        <button
+          type="button"
+          className={cn(
+            'inline-flex min-h-10 w-full cursor-pointer items-center justify-center gap-[7px] whitespace-nowrap border border-[#e4e9ed] bg-[#eef0f2] px-3.5 text-[12px] text-[#3f4850] rounded-sm',
+            'min-[701px]:w-auto',
+          )}
+          onClick={onImportExcel}
+        >
           رفع ملف Excel
           <ArrowUpFromLine size={14} />
         </button>
       </div>
 
-      <div className="transfer-create-grid">
+      <div className={cn('grid grid-cols-1 items-start gap-6', 'min-[1025px]:grid-cols-[minmax(0,1.8fr)_minmax(280px,1fr)]')}>
         <form
-          className="transfer-form-panel"
+          className="min-w-0 overflow-hidden border border-line bg-surface px-[18px] pb-0 pt-[18px] rounded-lg"
           onSubmit={(event: FormEvent) => { event.preventDefault(); void openReview() }}
           noValidate
         >
-          <TransferFormSection number="1" title="صورة إيصال التحويل" hint="الخطوة الأولى">
+          <TransferFormSection section={{ number: '1', title: 'صورة إيصال التحويل', hint: 'الخطوة الأولى' }}>
             <input
               ref={receiptInput}
-              className="visually-hidden"
+              className="absolute size-px overflow-hidden whitespace-nowrap [clip-path:inset(50%)] [clip:rect(0,0,0,0)]"
               type="file"
               accept="image/jpeg,image/png,image/jpg,application/pdf,.pdf"
               onChange={handleReceipt}
             />
             {receiptName ? (
-              <div className="receipt-upload is-filled">
-                <div className="receipt-thumb" aria-hidden="true"><i /><i /><b /></div>
-                <div className="receipt-upload-copy">
-                  <strong title={receiptName}>{receiptName}</strong>
+              <div className="flex min-h-[88px] w-full cursor-default items-center gap-3 border border-dashed border-green bg-[#f7f8f9] p-4 text-start text-[#717a80] rounded-md">
+                <div className="grid h-14 w-12 content-center gap-1 rounded-sm bg-[#eceff1] px-1.5 py-2" aria-hidden="true">
+                  <i className="block h-1 rounded-full bg-[#c5ccd1]" />
+                  <i className="block h-1 rounded-full bg-[#c5ccd1]" />
+                  <b className="block h-1 w-3/5 rounded-full bg-green" />
+                </div>
+                <div className="grid min-w-0 flex-1 gap-0.5">
+                  <strong className="overflow-hidden text-ellipsis whitespace-nowrap text-[14px] text-[#343d44]" title={receiptName}>{receiptName}</strong>
                   {extracting && <small>جاري قراءة الإيصال...</small>}
                 </div>
-                <button type="button" className="receipt-replace" onClick={() => receiptInput.current?.click()}>استبدال</button>
+                <button type="button" className="min-h-8 cursor-pointer border border-[#e4e9ed] bg-surface px-2.5 text-[11px] text-[#56616c] rounded-[7px]" onClick={() => receiptInput.current?.click()}>استبدال</button>
               </div>
             ) : (
               <button
                 type="button"
-                className={`receipt-upload is-empty ${dragging ? 'is-dragging' : ''}`}
+                className={cn(
+                  'flex min-h-[88px] w-full cursor-pointer flex-col items-center justify-center gap-1.5 border border-dashed border-green bg-[#f7f8f9] p-4 text-center text-green rounded-md',
+                  dragging && 'bg-green-soft border-green',
+                )}
                 onClick={() => receiptInput.current?.click()}
                 onDragEnter={(event) => { event.preventDefault(); setDragging(true) }}
                 onDragOver={(event) => { event.preventDefault(); setDragging(true) }}
@@ -361,82 +393,105 @@ function TransferFormCreate({ nextNumber, onCancel, onSaved, onDraftSaved, onErr
                 }}
               >
                 <ImagePlus size={22} />
-                <strong>اختر صورة أو اسحبها هنا</strong>
-                <small>JPG / PNG / PDF حتى 5MB</small>
+                <strong className="text-[13px] text-[#454e55]">اختر صورة أو اسحبها هنا</strong>
+                <small className="text-[11px] text-text-muted">JPG / PNG / PDF حتى 5MB</small>
               </button>
             )}
-            {receiptError && <small className="transfer-field-error">{receiptError}</small>}
+            {receiptError && <small className="transfer-field-error text-[12px] text-danger">{receiptError}</small>}
           </TransferFormSection>
 
-          <TransferFormSection number="2" title="الدولة والتاجر" hint="تظهر الخيارات حسب الدولة المختارة">
-            <div className="transfer-fields two-fields">
-              <TransferFormField fieldKey="country" label="الدولة" required error={errors.country} hint={`العملة: ${currency} — أُخذت تلقائيًا`}>
+          <TransferFormSection section={{ number: '2', title: 'الدولة والتاجر', hint: 'تظهر الخيارات حسب الدولة المختارة' }}>
+            <div className={cn('grid grid-cols-1 items-start gap-3', 'min-[561px]:grid-cols-2')}>
+              <TransferFormField field={{ fieldKey: 'country', label: 'الدولة', required: true, error: errors.country, hint: `العملة: ${currency} — أُخذت تلقائيًا` }}>
                 <FormSelect
-                  className="form-select-field"
-                  ariaLabel="الدولة"
-                  value={form.country}
-                  invalid={Boolean(errors.country)}
-                  onChange={(value) => updateField('country', value)}
-                  options={transferCountries.map((item) => ({ label: item, value: item }))}
+                  field={{
+                    className: transferFormSelectClass,
+                    ariaLabel: 'الدولة',
+                    value: form.country,
+                    invalid: Boolean(errors.country),
+                    onChange: (value) => updateField('country', value),
+                    options: transferCountries.map((item) => ({ label: item, value: item })),
+                  }}
                 />
               </TransferFormField>
-              <TransferFormField fieldKey="merchant" label="التاجر" required error={errors.merchant} hint={`تجار ${form.country} المفعّلون فقط (${merchants.length})`}>
+              <TransferFormField field={{ fieldKey: 'merchant', label: 'التاجر', required: true, error: errors.merchant, hint: `تجار ${form.country} المفعّلون فقط (${merchants.length})` }}>
                 <FormSelect
-                  className="form-select-field"
-                  ariaLabel="التاجر"
-                  searchable
-                  value={form.merchant}
-                  invalid={Boolean(errors.merchant)}
-                  onChange={(value) => updateField('merchant', value)}
-                  options={merchants.map((item) => ({ label: item.name, value: item.name }))}
+                  field={{
+                    className: transferFormSelectClass,
+                    ariaLabel: 'التاجر',
+                    searchable: true,
+                    value: form.merchant,
+                    invalid: Boolean(errors.merchant),
+                    onChange: (value) => updateField('merchant', value),
+                    options: merchants.map((item) => ({ label: item.name, value: item.name })),
+                  }}
                 />
               </TransferFormField>
-              <TransferFormField fieldKey="method" label="وسيلة التحويل" required error={errors.method} hint="وسائل هذا التاجر المفعلة فقط">
+              <TransferFormField field={{ fieldKey: 'method', label: 'وسيلة التحويل', required: true, error: errors.method, hint: 'وسائل هذا التاجر المفعلة فقط' }}>
                 <FormSelect
-                  className="form-select-field"
-                  ariaLabel="وسيلة التحويل"
-                  value={form.method}
-                  invalid={Boolean(errors.method)}
-                  onChange={(value) => updateField('method', value)}
-                  options={methods.map((item) => ({ label: item.name, value: item.name }))}
+                  field={{
+                    className: transferFormSelectClass,
+                    ariaLabel: 'وسيلة التحويل',
+                    value: form.method,
+                    invalid: Boolean(errors.method),
+                    disabled: methods.length === 0,
+                    onChange: (value) => updateField('method', value),
+                    options: methods.length
+                      ? methods.map((item) => ({ label: item.name, value: item.name }))
+                      : [{ label: 'لا توجد وسائل', value: form.method || 'none' }],
+                  }}
                 />
               </TransferFormField>
               <TransferFormField
-                fieldKey="account"
-                label="رقم / حساب الاستقبال"
-                required
-                error={errors.account}
-                hint={
-                  accounts.length === 0
+                field={{
+                  fieldKey: 'account',
+                  label: 'رقم / حساب الاستقبال',
+                  required: true,
+                  error: errors.account,
+                  hint: accounts.length === 0
                     ? 'لا توجد حسابات'
                     : accounts.length === 1
                       ? `للتاجر رقم واحد على ${form.method}`
                       : accounts.length === 2
                         ? `للتاجر رقمان على ${form.method}`
-                        : `للتاجر ${accounts.length} أرقام على ${form.method}`
-                }
+                        : `للتاجر ${accounts.length} أرقام على ${form.method}`,
+                }}
               >
                 <FormSelect
-                  className="form-select-field"
-                  ariaLabel="رقم / حساب الاستقبال"
-                  value={form.account}
-                  invalid={Boolean(errors.account)}
-                  onChange={(value) => updateField('account', value)}
-                  options={accounts.map((item) => ({ label: item, value: item }))}
+                  field={{
+                    className: transferFormSelectClass,
+                    ariaLabel: 'رقم / حساب الاستقبال',
+                    value: form.account,
+                    invalid: Boolean(errors.account),
+                    disabled: accounts.length === 0,
+                    onChange: (value) => updateField('account', value),
+                    options: accounts.length
+                      ? accounts.map((item) => ({ label: item, value: item }))
+                      : [{ label: 'لا توجد حسابات', value: form.account || 'none' }],
+                  }}
                 />
               </TransferFormField>
             </div>
           </TransferFormSection>
 
-          <TransferFormSection number="3" title="بيانات التحويل">
-            <div className="transfer-fields two-fields">
-              <TransferFormField fieldKey="number" label="رقم التحويل" hint="يُنشأ تلقائيًا بواسطة النظام">
+          <TransferFormSection section={{ number: '3', title: 'بيانات التحويل' }}>
+            <div className={cn('grid grid-cols-1 items-start gap-3', 'min-[561px]:grid-cols-2')}>
+              <TransferFormField field={{ fieldKey: 'number', label: 'رقم التحويل', hint: 'يُنشأ تلقائيًا بواسطة النظام' }}>
                 <input className="is-readonly" value={form.number} readOnly dir="ltr" />
               </TransferFormField>
-              <TransferFormField fieldKey="amount" label={`قيمة التحويل (${currency})`} required error={errors.amount}>
-                <div className={`transfer-amount-input ${ocrFields.amount ? 'is-ocr' : ''}`}>
-                  <span>{currency}</span>
+              <TransferFormField field={{ fieldKey: 'amount', label: `قيمة التحويل (${currency})`, required: true, error: errors.amount }}>
+                <div
+                  className={cn(
+                    'transfer-amount-input flex h-[42px] w-full min-w-0 flex-row flex-nowrap items-center gap-2 border border-[#e5e8ea] bg-[#f7f8f9] px-3 text-base text-[#343d44] rounded-sm',
+                    'focus-within:border-green focus-within:bg-surface focus-within:shadow-[0_0_0_3px_rgb(57_174_57_/_12%)]',
+                    'min-[561px]:text-[13px]',
+                    ocrFields.amount && 'border-[#d7ebd2] bg-[#f3faf1]',
+                  )}
+                  dir="ltr"
+                >
+                  <span className="flex-none whitespace-nowrap text-[12px] font-bold leading-none tracking-[0.02em] text-[#8a939b]">{currency}</span>
                   <input
+                    className="h-full min-w-0 flex-1 border-0 bg-transparent text-end font-[inherit] font-semibold text-inherit outline-0 text-base min-[561px]:text-[13px]"
                     dir="ltr"
                     value={form.amount}
                     aria-invalid={Boolean(errors.amount)}
@@ -449,7 +504,7 @@ function TransferFormCreate({ nextNumber, onCancel, onSaved, onDraftSaved, onErr
                   />
                 </div>
               </TransferFormField>
-              <TransferFormField fieldKey="reference" label="رقم المرجع" required error={errors.reference}>
+              <TransferFormField field={{ fieldKey: 'reference', label: 'رقم المرجع', required: true, error: errors.reference }}>
                 <input
                   className={ocrFields.reference ? 'is-ocr' : undefined}
                   dir="ltr"
@@ -459,7 +514,7 @@ function TransferFormCreate({ nextNumber, onCancel, onSaved, onDraftSaved, onErr
                   onBlur={() => { void validateField('reference') }}
                 />
               </TransferFormField>
-              <TransferFormField fieldKey="sender" label="اسم المحوّل" required error={errors.sender}>
+              <TransferFormField field={{ fieldKey: 'sender', label: 'اسم المحوّل', required: true, error: errors.sender }}>
                 <input
                   className={ocrFields.sender ? 'is-ocr' : undefined}
                   value={form.sender}
@@ -468,7 +523,7 @@ function TransferFormCreate({ nextNumber, onCancel, onSaved, onDraftSaved, onErr
                   onBlur={() => { void validateField('sender') }}
                 />
               </TransferFormField>
-              <TransferFormField fieldKey="receiverPhone" label="رقم هاتف المستلم">
+              <TransferFormField field={{ fieldKey: 'receiverPhone', label: 'رقم هاتف المستلم' }}>
                 <input
                   className={ocrFields.receiverPhone ? 'is-ocr' : undefined}
                   dir="ltr"
@@ -476,7 +531,7 @@ function TransferFormCreate({ nextNumber, onCancel, onSaved, onDraftSaved, onErr
                   onChange={(event) => updateField('receiverPhone', event.target.value)}
                 />
               </TransferFormField>
-              <TransferFormField fieldKey="date" label="تاريخ ووقت التحويل" required error={errors.date}>
+              <TransferFormField field={{ fieldKey: 'date', label: 'تاريخ ووقت التحويل', required: true, error: errors.date }}>
                 <input
                   className={ocrFields.date ? 'is-ocr' : undefined}
                   dir="ltr"
@@ -487,7 +542,7 @@ function TransferFormCreate({ nextNumber, onCancel, onSaved, onDraftSaved, onErr
                   onBlur={() => { void validateField('date') }}
                 />
               </TransferFormField>
-              <TransferFormField fieldKey="note" label="ملاحظات" wide>
+              <TransferFormField field={{ fieldKey: 'note', label: 'ملاحظات', wide: true }}>
                 <textarea
                   rows={3}
                   value={form.note}
@@ -498,44 +553,50 @@ function TransferFormCreate({ nextNumber, onCancel, onSaved, onDraftSaved, onErr
             </div>
           </TransferFormSection>
 
-          <div className="transfer-form-actions">
-            <div className="transfer-form-actions-main">
-              <button type="submit" className="transfer-primary-button">مراجعة التحويل</button>
-              <button type="button" className="transfer-cancel-button" onClick={askCancel}>إلغاء</button>
+          <div
+            className={cn(
+              'sticky bottom-0 z-[2] mx-[-18px] mt-1 flex flex-col-reverse items-stretch justify-between gap-3 border-t border-[#edf0f2] bg-[#f7f8f9] px-[18px] pt-3.5 pb-[calc(14px+env(safe-area-inset-bottom,0px))]',
+              'min-[561px]:flex-row min-[561px]:items-center',
+              'print:hidden',
+            )}
+          >
+            <div className={cn('flex w-full flex-col items-stretch gap-2', 'min-[561px]:w-auto min-[561px]:flex-row min-[561px]:items-center')}>
+              <button type="submit" className={cn(transferPrimaryButtonClass, 'min-h-10 w-full justify-center rounded-sm text-[12px] min-[561px]:w-auto')}>مراجعة التحويل</button>
+              <button type="button" className={cn(transferCancelButtonClass, 'min-h-10 w-full justify-center rounded-sm text-[12px] min-[561px]:w-auto')} onClick={askCancel}>إلغاء</button>
             </div>
-            <button type="button" className="transfer-draft-link" onClick={saveDraft}>حفظ كمسودة</button>
+            <button type="button" className="w-full cursor-pointer border-0 bg-transparent text-center text-[12px] text-[#6c747a] min-[561px]:w-auto" onClick={saveDraft}>حفظ كمسودة</button>
           </div>
         </form>
 
-        <aside className="transfer-preview-column">
-          <section className="transfer-preview-card">
-            <h2>معاينة الإيصال</h2>
+        <aside className={cn('static top-auto grid gap-3.5', 'min-[1025px]:sticky min-[1025px]:top-[76px] min-[1025px]:order-none', 'max-[1024px]:order-2')}>
+          <section className="min-w-0 border border-line bg-surface p-4 rounded-lg">
+            <h2 className="mb-3 text-[14px] font-bold text-[#303b46]">معاينة الإيصال</h2>
             {receiptUrl ? (
-              <a className="receipt-real" href={receiptUrl} target="_blank" rel="noreferrer" title="تكبير">
+              <a className="block overflow-hidden border border-[#edf0f2] no-underline rounded-md" href={receiptUrl} target="_blank" rel="noreferrer" title="تكبير">
                 {receiptIsImage ? (
-                  <img src={receiptUrl} alt="معاينة الإيصال" />
+                  <img className="block h-auto w-full" src={receiptUrl} alt="معاينة الإيصال" />
                 ) : (
-                  <span className="receipt-pdf-link">عرض ملف PDF · {receiptName}</span>
+                  <span className="grid min-h-[180px] place-items-center bg-[#f7f8f9] p-4 text-center text-[12px] text-[#4a535a]">عرض ملف PDF · {receiptName}</span>
                 )}
               </a>
             ) : (
-              <div className={`receipt-paper ${brandClass}`}>
-                <div className="receipt-brand">{brandLabel === '—' ? 'Receipt' : brandLabel}</div>
-                <strong className="receipt-success">تمت العملية بنجاح</strong>
+              <div className={receiptPaperClass}>
+                <div data-receipt-brand className="grid min-h-10 place-items-center bg-[#9aa3aa] text-[13px] font-bold text-white" dir="ltr">{brandLabel === '—' ? 'Receipt' : brandLabel}</div>
+                <strong className="block px-2 pb-2 pt-3 text-[13px] font-bold text-[#303b46]">تمت العملية بنجاح</strong>
                 <TransferReceiptRow label="المبلغ" value={amount ? `${formatAmount(amount, 2)} جنيه` : '—'} highlight />
                 <TransferReceiptRow label="إلى" value={form.receiverPhone || form.account || '—'} highlight />
                 <TransferReceiptRow label="من" value={form.sender || '—'} highlight />
                 <TransferReceiptRow label="رقم العملية" value={form.reference || '—'} highlight />
                 <TransferReceiptRow label="التاريخ" value={formatReceiptDate(form.date)} highlight />
                 <TransferReceiptRow label="الرصيد المتبقي" value="—" />
-                <small>شكرًا لاستخدامك فودافون كاش</small>
+                <small className="mt-2 block text-[10px] text-[#a1a7ab]">شكرًا لاستخدامك فودافون كاش</small>
               </div>
             )}
           </section>
 
-          <section className="transfer-calculation-card">
-            <h2>احتساب العمولة والصافي</h2>
-            <p>
+          <section className="min-w-0 border border-line bg-surface p-4 rounded-lg">
+            <h2 className="mb-3 text-[14px] font-bold text-[#303b46]">احتساب العمولة والصافي</h2>
+            <p className="-mt-1.5 mb-3 text-[11px] text-text-muted">
               وفق إعدادات التاجر:{' '}
               {merchant
                 ? merchant.commissionType === 'percent'
@@ -543,48 +604,50 @@ function TransferFormCreate({ nextNumber, onCancel, onSaved, onDraftSaved, onErr
                   : `${merchant.commissionValue} ${currency} قيمة ثابتة`
                 : '—'}
             </p>
-            <div className="calc-row"><span>قيمة التحويل</span><strong dir="ltr">{amount ? `${formatAmount(amount)} ${currency}` : '—'}</strong></div>
-            <div className="calc-row commission-line">
+            <div className="flex justify-between gap-2 border-b border-[#f0f2f4] py-2 text-[12px] text-[#687178]"><span>قيمة التحويل</span><strong className="font-bold text-[#313a40]" dir="ltr">{amount ? `${formatAmount(amount)} ${currency}` : '—'}</strong></div>
+            <div className="flex justify-between gap-2 border-b border-[#f0f2f4] py-2 text-[12px] text-[#687178]">
               <span>العمولة ({merchant?.commissionType === 'percent' ? `${commissionRate}%` : currency})</span>
-              <strong dir="ltr">{amount ? `− ${formatAmount(commission)} ${currency}` : '—'}</strong>
+              <strong className="font-bold text-danger" dir="ltr">{amount ? `− ${formatAmount(commission)} ${currency}` : '—'}</strong>
             </div>
-            <div className="calc-row"><span>صافي المبلغ المستحق</span><strong dir="ltr">{amount ? `${formatAmount(netAmount)} ${currency}` : '—'}</strong></div>
+            <div className="flex justify-between gap-2 border-b border-[#f0f2f4] py-2 text-[12px] text-[#687178]"><span>صافي المبلغ المستحق</span><strong className="font-bold text-[#313a40]" dir="ltr">{amount ? `${formatAmount(netAmount)} ${currency}` : '—'}</strong></div>
 
-            <div className="exchange-box">
-              <div className="exchange-box-top">
-                <div>
-                  <span>سعر صرف الدولار وقت التسجيل</span>
-                  <em className="live-pill"><i />مباشر · API</em>
+            <div className="mt-3 border border-green-border bg-[#f3faf1] p-3 rounded-md">
+              <div className="flex items-start justify-between gap-2.5">
+                <div className="grid gap-1.5">
+                  <span className="text-[11px] text-[#5a636a]">سعر صرف الدولار وقت التسجيل</span>
+                  <em className="inline-flex w-fit items-center gap-[5px] rounded-full bg-[#eaf6e8] px-2 py-[3px] text-[10px] font-bold not-italic text-green"><i className="size-1.5 rounded-full bg-current" />مباشر · API</em>
                 </div>
-                <strong dir="ltr">1 USD = {rate.toFixed(2)} {currency}</strong>
+                <strong className="text-[13px] font-bold text-[#243039]" dir="ltr">1 USD = {rate.toFixed(2)} {currency}</strong>
               </div>
-              <small>{rateClock} — يُثبَّت مع الحوالة</small>
+              <small className="mt-2 block text-[10px] leading-[1.6] text-[#95a0a7]">{rateClock} — يُثبَّت مع الحوالة</small>
             </div>
 
-            <div className="usd-total">
+            <div className="mt-3 flex justify-between gap-2 border-t border-[#edf0f2] pt-3 text-[12px] text-[#626b71]">
               <span>القيمة المحتسبة بالدولار</span>
-              <strong dir="ltr">{amount ? `≈ $ ${usdAmount}` : '—'}</strong>
+              <strong className="text-[22px] font-bold text-green" dir="ltr">{amount ? `≈ $ ${usdAmount}` : '—'}</strong>
             </div>
-            <small className="usd-note">محسوبة بسعر الصرف اللحظي وقت التسجيل. يُحفظ المبلغ الأصلي بالعملة المحلية، ويُثبَّت سعر الدولار عند تسوية حساب التاجر</small>
+            <small className="mt-2 block text-[10px] leading-[1.6] text-[#95a0a7]">محسوبة بسعر الصرف اللحظي وقت التسجيل. يُحفظ المبلغ الأصلي بالعملة المحلية، ويُثبَّت سعر الدولار عند تسوية حساب التاجر</small>
           </section>
         </aside>
       </div>
 
       {reviewOpen && (
         <TransferReviewModal
-          form={form}
-          currency={currency}
-          amount={amount}
-          commission={commission}
-          netAmount={netAmount}
-          usdAmount={usdAmount}
-          receiptUrl={receiptUrl}
-          receiptIsImage={receiptIsImage}
-          brandClass={brandClass}
-          brandLabel={brandLabel}
-          saving={saving}
-          onClose={() => setReviewOpen(false)}
-          onConfirm={() => { void confirmSave() }}
+          review={{
+            form,
+            currency,
+            amount,
+            commission,
+            netAmount,
+            usdAmount,
+            receiptUrl,
+            receiptIsImage,
+            brandClass,
+            brandLabel,
+            saving,
+            onClose: () => setReviewOpen(false),
+            onConfirm: () => { void confirmSave() },
+          }}
         />
       )}
     </>

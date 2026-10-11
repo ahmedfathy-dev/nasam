@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
+import { cn } from '@/lib/cn'
 import type { ToastItem } from '../../types/toast'
-import './MerchantUi.css'
+import { merchantToastError, merchantToastStack, merchantToastSuccess } from './merchantTw'
 
 export type { ToastItem }
 
@@ -11,7 +12,7 @@ type ToastStackProps = {
 
 function ToastStack({ items, onDismiss }: ToastStackProps) {
   return (
-    <div className="merchant-toast-stack" aria-live="polite">
+    <div className={merchantToastStack} aria-live="polite">
       {items.map((item) => (
         <Toast key={item.id} item={item} onDismiss={onDismiss} />
       ))}
@@ -26,7 +27,10 @@ function Toast({ item, onDismiss }: { item: ToastItem; onDismiss: (id: number) =
   }, [item.id, onDismiss])
 
   return (
-    <div className={`merchant-toast merchant-toast-${item.tone}`} role="status">
+    <div
+      className={cn(item.tone === 'success' ? merchantToastSuccess : merchantToastError)}
+      role="status"
+    >
       {item.message}
     </div>
   )

@@ -6,8 +6,8 @@ import SettlementDetailsDrawer from './SettlementDetailsDrawer'
 import SettlementsStatsCards from './SettlementsStatsCards'
 import SettlementsTable, { type SettlementSortKey } from './SettlementsTable'
 import SettlementsToolbar from './SettlementsToolbar'
-import '../MerchantResponsive.css'
-import './SettlementsHistoryPage.css'
+import { cn } from '@/lib/cn'
+import { pageShell } from '../merchantTw'
 
 type SettlementsHistoryPageProps = {
   merchantId: number
@@ -16,12 +16,13 @@ type SettlementsHistoryPageProps = {
   onViewTransfers: (settlementId: string) => void
 }
 
-function SettlementsHistoryPage({
-  merchantId,
-  onBackToDetails,
-  onBackToMerchants,
-  onViewTransfers,
-}: SettlementsHistoryPageProps) {
+function SettlementsHistoryPage({ screen }: { screen: SettlementsHistoryPageProps }) {
+  const {
+    merchantId,
+    onBackToDetails,
+    onBackToMerchants,
+    onViewTransfers,
+  } = screen
   const [details, setDetails] = useState<MerchantDetails | null>(null)
   const [allRows, setAllRows] = useState<MerchantSettlementRow[]>([])
   const [rows, setRows] = useState<MerchantSettlementRow[]>([])
@@ -123,30 +124,30 @@ function SettlementsHistoryPage({
   }
 
   return (
-    <div className="settlements-history-page" dir="rtl">
-      <nav className="sh-breadcrumb" aria-label="مسار الصفحة">
-        <button type="button" onClick={onBackToMerchants}>التجار</button>
+    <div className={cn('settlements-history-page', pageShell, 'grid gap-4 text-text')} dir="rtl">
+      <nav className="sh-breadcrumb flex flex-wrap items-center gap-[5px] text-[11px] text-text-muted" aria-label="مسار الصفحة">
+        <button type="button" className="border-0 bg-transparent font-inherit text-inherit hover:text-green" onClick={onBackToMerchants}>التجار</button>
         <ChevronLeft size={12} />
-        <button type="button" onClick={onBackToDetails}>{details?.name ?? '...'}</button>
+        <button type="button" className="border-0 bg-transparent font-inherit text-inherit hover:text-green" onClick={onBackToDetails}>{details?.name ?? '...'}</button>
         <ChevronLeft size={12} />
-        <strong>سجل التسويات</strong>
+        <strong className="font-semibold text-[#4b5662]">سجل التسويات</strong>
       </nav>
 
-      <header className="sh-header">
-        <div className="sh-header-copy">
-          <h1>سجل التسويات</h1>
-          <p>
+      <header className="sh-header flex flex-col items-stretch gap-[18px] min-[640px]:flex-row min-[640px]:flex-wrap min-[640px]:items-start min-[640px]:justify-between">
+        <div className="sh-header-copy grid min-w-0 gap-1.5">
+          <h1 className="text-[22px] font-bold leading-[1.25] text-[#1f2730] min-[640px]:text-[28px]">سجل التسويات</h1>
+          <p className="text-xs leading-[1.6] text-text-muted">
             {details
               ? `${details.name} · ${details.country} · ${details.currency} — كل دورات التحصيل التي تم إغلاقها وتحويلها إلى مؤسسة نسم`
               : 'جاري تحميل بيانات التاجر...'}
           </p>
         </div>
-        <div className="sh-header-actions">
-          <button type="button" className="sh-btn-back" onClick={onBackToDetails}>
+        <div className="sh-header-actions flex w-full flex-none flex-col flex-wrap items-stretch justify-end gap-2 min-[640px]:w-auto min-[640px]:flex-row">
+          <button type="button" className="sh-btn-back inline-flex min-h-10 w-full min-w-0 items-center justify-center gap-[7px] whitespace-nowrap rounded-md border border-[#e4e7ea] bg-[#eef0f2] px-3.5 text-xs font-semibold text-[#3f4850] hover:bg-[#e6e9ec] min-[640px]:min-w-[180px] min-[640px]:w-auto" onClick={onBackToDetails}>
             <ArrowLeft size={15} />
             رجوع لتفاصيل التاجر
           </button>
-          <button type="button" className="sh-btn-outline" onClick={exportRows}>
+          <button type="button" className="sh-btn-outline inline-flex min-h-10 w-full items-center justify-center gap-[7px] whitespace-nowrap rounded-md border border-[#e4e9ed] bg-surface px-3.5 text-[11px] text-[#56616c] hover:bg-[#f7f8f9] min-[640px]:min-h-[34px] min-[640px]:w-auto" onClick={exportRows}>
             <Download size={13} />
             تصدير Excel
           </button>
@@ -154,47 +155,55 @@ function SettlementsHistoryPage({
       </header>
 
       <SettlementsStatsCards
-        settlements={allRows}
-        loading={loading && !allRows.length}
-        sinceDate={sinceDate}
-        commissionLabel={details ? `بعد خصم عمولة ${details.commission}` : 'بعد خصم عمولة 2%'}
+        stats={{
+          settlements: allRows,
+          loading: loading && !allRows.length,
+          sinceDate,
+          commissionLabel: details ? `بعد خصم عمولة ${details.commission}` : 'بعد خصم عمولة 2%',
+        }}
       />
 
-      <section className="sh-panel">
+      <section className="sh-panel rounded-lg border border-line bg-surface p-4">
         <SettlementsToolbar
-          search={search}
-          status={status}
-          period={period}
-          countLabel={countLabel}
-          onSearchChange={setSearch}
-          onStatusChange={setStatus}
-          onPeriodChange={setPeriod}
+          toolbar={{
+            search,
+            status,
+            period,
+            countLabel,
+            onSearchChange: setSearch,
+            onStatusChange: setStatus,
+            onPeriodChange: setPeriod,
+          }}
         />
 
         <SettlementsTable
-          rows={rows}
-          loading={loading}
-          error={error}
-          page={page}
-          pageCount={pageCount}
-          total={total}
-          pageSize={pageSize}
-          sort={sort}
-          sortDir={sortDir}
-          onSort={handleSort}
-          onPageChange={setPage}
-          onRowClick={setSelected}
-          onRetry={() => void load()}
+          table={{
+            rows,
+            loading,
+            error,
+            page,
+            pageCount,
+            total,
+            pageSize,
+            sort,
+            sortDir,
+            onSort: handleSort,
+            onPageChange: setPage,
+            onRowClick: setSelected,
+            onRetry: () => void load(),
+          }}
         />
       </section>
 
       <SettlementDetailsDrawer
-        open={Boolean(selected)}
-        row={selected}
-        onClose={() => setSelected(null)}
-        onViewTransfers={(row) => {
-          setSelected(null)
-          onViewTransfers(row.id)
+        drawer={{
+          open: Boolean(selected),
+          row: selected,
+          onClose: () => setSelected(null),
+          onViewTransfers: (row) => {
+            setSelected(null)
+            onViewTransfers(row.id)
+          },
         }}
       />
     </div>

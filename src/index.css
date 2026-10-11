@@ -1,10 +1,11 @@
 @import 'tailwindcss';
 
-/* Design tokens — shared by legacy CSS (var(--*)) and Tailwind utilities */
+/* Design tokens — Tailwind utilities + legacy CSS var(--*) aliases below */
 @theme {
   --font-sans: 'Alexandria', sans-serif;
   --color-surface: #ffffff;
   --color-canvas: #f5f6f8;
+  --color-canvas-soft: #f4f5f6;
   --color-text: #27313d;
   --color-text-muted: #858e98;
   --color-line: #e8ebee;
@@ -12,17 +13,26 @@
   --color-green: #39ae39;
   --color-green-soft: #edf8eb;
   --color-green-border: #cbe6c3;
+  --color-green-bright: #299f14;
+  --color-green-link: #32a522;
+  --color-green-link-hover: #248316;
   --color-orange: #df9b31;
   --color-danger: #d84949;
   --color-danger-soft: #fff1f0;
+  --color-ink: #111315;
+  --color-ink-hover: #292d2f;
+  --color-ink-soft: #1e252b;
   --radius-sm: 8px;
   --radius-md: 10px;
   --radius-lg: 12px;
+  --radius-xl: 14px;
+  --radius-2xl: 20px;
 }
 
 :root {
   font-family: 'Alexandria', sans-serif;
-  font-size: 13px;
+  /* Keep 16px so Tailwind rem utilities match the design. Text size lives on body. */
+  font-size: 16px;
   line-height: 1.5;
   color: #202a35;
   background: #f5f6f8;
@@ -49,44 +59,183 @@
   --control-height: 40px;
 }
 
-* {
-  box-sizing: border-box;
+/* Unlayered rules beat Tailwind utilities. Keep resets in base so text-white / font-* win. */
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+    color: inherit;
+  }
 }
 
 body {
   min-width: 320px;
-  min-height: 100vh;
+  min-height: 100dvh;
   margin: 0;
+  font-size: 13px;
   background: var(--canvas);
-}
-
-button,
-input {
-  font: inherit;
-}
-
-button {
-  color: inherit;
 }
 
 #root {
   width: 100%;
   max-width: none;
-  min-height: 100vh;
+  min-height: 100dvh;
   margin: 0;
   border: 0;
   display: block;
   text-align: start;
 }
 
-h1,
-h2,
-p {
-  margin: 0;
+@layer base {
+  h1,
+  h2,
+  p {
+    margin: 0;
+  }
+
+  h1,
+  h2 {
+    font-weight: 500;
+    color: inherit;
+  }
 }
 
-h1,
-h2 {
-  font-weight: 500;
-  color: inherit;
+/* Animations referenced by animate-[...] utilities. form-select-in matches the last loaded sheet (−3px). */
+@keyframes form-select-in {
+  from { opacity: 0; transform: translateY(-3px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes merchant-dialog-in {
+  from { opacity: 0; transform: translateY(5px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes merchant-drawer-in {
+  from { transform: translateX(12px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes am-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes sa-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes sa-in {
+  from { opacity: 0; transform: translateY(6px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes mas-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes co-modal-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes md-shimmer {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}
+
+@keyframes sh-shimmer {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}
+
+@layer components {
+  /* Switch knob is a pseudo-element; the track color is a utility on the <i>. */
+  .am-switch-row > i::after {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #fff;
+    content: '';
+    transition: transform 140ms ease;
+  }
+
+  .am-switch-row > input:checked + i::after {
+    transform: translateX(-18px);
+  }
+}
+
+/*
+  These stay outside @layer so they keep beating utilities, the same way the old
+  unlayered stylesheets did. Moving them into @layer would change focus, invalid, and padding.
+*/
+@media (max-width: 1023px) {
+  .page-content:has(.traders-page),
+  .page-content:has(.merchant-details-page),
+  .page-content:has(.settlements-history-page),
+  .page-content:has(.add-merchant-page) {
+    padding: 24px;
+  }
+}
+
+@media (max-width: 639px) {
+  .page-content:has(.traders-page),
+  .page-content:has(.merchant-details-page),
+  .page-content:has(.settlements-history-page),
+  .page-content:has(.add-merchant-page) {
+    padding: 16px;
+  }
+}
+
+:is(.dashboard, .login-page) :is(input:not([type='checkbox']):not([type='radio']):not([type='file']), select, textarea) {
+  font-family: inherit;
+  transition: border-color 150ms ease, background-color 150ms ease, box-shadow 150ms ease, color 150ms ease;
+}
+
+:is(.dashboard, .login-page) :is(input, textarea)::placeholder {
+  color: #9ba2a8;
+  opacity: 1;
+}
+
+:is(.dashboard, .login-page) :is(input, select, textarea, button):disabled {
+  cursor: not-allowed;
+}
+
+.dashboard :is(button, [role='button']):disabled {
+  opacity: 0.56;
+}
+
+:is(.dashboard, .login-page) button:focus-visible,
+:is(.dashboard, .login-page) a:focus-visible {
+  outline: 2px solid rgb(23 141 224 / 78%);
+  outline-offset: 2px;
+}
+
+.dashboard :is(.transfer-field > input, .merchant-field > input, input[type='date'], textarea):user-invalid,
+.dashboard [aria-invalid='true'] {
+  border-color: #d95f5f;
+  box-shadow: 0 0 0 3px rgb(217 95 95 / 10%);
+}
+
+.dashboard :is(.transfer-field > input, .merchant-field > input, input[type='date'], textarea):user-invalid:focus,
+.dashboard [aria-invalid='true']:focus {
+  border-color: #d95f5f;
+  box-shadow: 0 0 0 3px rgb(217 95 95 / 12%);
+}
+
+.dashboard :is(.transfer-field > input, .merchant-field > input, input[type='date'], textarea):disabled,
+.dashboard [aria-disabled='true'] {
+  border-color: #e8ebee;
+  background-color: #f0f2f4;
+  color: #9aa2a9;
+  box-shadow: none;
 }

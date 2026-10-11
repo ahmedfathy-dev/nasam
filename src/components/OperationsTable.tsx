@@ -1,21 +1,15 @@
-import { useMemo, useState } from 'react'
-import './OperationsTable.css'
-import { ChevronLeft, Ellipsis } from 'lucide-react'
+import { useMemo } from 'react'
+import { cn } from '@/lib/cn'
 import { recentTransfers } from '../data/dashboardData'
 
 type OperationsTableProps = {
   search: string
-  onViewAll?: () => void
 }
 
-const statusClass = {
-  مكتملة: 'complete',
-  معلقة: 'pending',
-  'قيد المراجعة': 'review',
-} as const
+const thClass = 'h-10 px-2.5 text-start text-[11px] font-medium text-[#929aa2]'
+const tdClass = 'h-11 border-t border-[#f0f2f4] px-2.5 text-[12px]'
 
-function OperationsTable({ search, onViewAll }: OperationsTableProps) {
-  const [openAction, setOpenAction] = useState<string | null>(null)
+function OperationsTable({ search }: OperationsTableProps) {
   const filteredTransfers = useMemo(() => {
     const query = search.trim().toLowerCase()
     if (!query) return recentTransfers
@@ -25,60 +19,56 @@ function OperationsTable({ search, onViewAll }: OperationsTableProps) {
   }, [search])
 
   return (
-    <article className="panel operations-panel">
-      <div className="panel-heading">
-        <div>
-          <h2>آخر الحوالات</h2>
-          <p>أحدث الحوالات المسجلة في النظام</p>
+    <article
+      className={cn(
+        'min-w-0 rounded-xl border border-[#e9ecef] bg-surface',
+        'shadow-[0_2px_5px_rgb(30_45_58_/_2%)]',
+      )}
+    >
+      <div className="flex min-h-[58px] items-center justify-between gap-3 border-b border-[#edf0f2] px-4 py-3">
+        <div className="text-start">
+          <h2 className="text-[16px] font-bold leading-[1.35] text-[#1c242b]">آخر الحوالات</h2>
+          <p className="mt-0.5 text-[12px] text-[#9aa3ab]">أحدث الحوالات المسجلة في النظام</p>
         </div>
-        <button className="text-button" type="button" onClick={onViewAll}>عرض الكل<ChevronLeft size={14} /></button>
       </div>
-      <div className="table-wrap">
-        <table>
-          <thead>
+      <div className="w-full overflow-x-auto">
+        <table className="w-full min-w-[680px] border-collapse whitespace-nowrap">
+          <thead className="bg-[#fafbfc]">
             <tr>
-              <th>رقم الحوالة</th>
-              <th>التاريخ</th>
-              <th>المرسل</th>
-              <th>المستلم</th>
-              <th>الدولة</th>
-              <th>طريقة التحويل</th>
-              <th>المبلغ المرسل</th>
-              <th>المبلغ المستلم</th>
-              <th>الحالة</th>
-              <th aria-label="الإجراءات" />
+              <th className={thClass}>رقم الحوالة</th>
+              <th className={thClass}>التاريخ</th>
+              <th className={thClass}>الدولة</th>
+              <th className={thClass}>التاجر</th>
+              <th className={thClass}>الطريقة</th>
+              <th className={thClass}>القيمة</th>
+              <th className={thClass}>الصافي (محلي)</th>
+              <th className={thClass}>الصافي ($)</th>
             </tr>
           </thead>
           <tbody>
             {filteredTransfers.map((transfer) => (
-              <tr key={transfer.id}>
-                <td><span className="transaction-id" dir="ltr">{transfer.id}</span></td>
-                <td className="muted-cell" dir="ltr">{transfer.date}</td>
-                <td className="customer-cell">{transfer.sender}</td>
-                <td>{transfer.recipient}</td>
-                <td>{transfer.country}</td>
-                <td className="muted-cell">{transfer.method}</td>
-                <td className="amount-cell" dir="ltr">{transfer.sent}</td>
-                <td className="amount-cell" dir="ltr">{transfer.received}</td>
-                <td>
-                  <span className={`status status-${statusClass[transfer.status]}`}>
-                    <i />{transfer.status}
+              <tr key={transfer.id} className="hover:bg-[#fbfdfe]">
+                <td className={cn(tdClass, 'text-start')}>
+                  <span className="font-sans text-[12px] font-semibold text-[#3988b8]" dir="ltr">
+                    {transfer.id}
                   </span>
                 </td>
-                <td className="row-action-cell">
-                  <button className="row-action" aria-label="إجراءات الحوالة" onClick={() => setOpenAction(openAction === transfer.id ? null : transfer.id)}><Ellipsis size={17} /></button>
-                  {openAction === transfer.id && (
-                    <div className="row-menu">
-                      <button onClick={() => setOpenAction(null)}>عرض التفاصيل</button>
-                      <button onClick={() => setOpenAction(null)}>تنزيل الإيصال</button>
-                    </div>
-                  )}
-                </td>
+                <td className={cn(tdClass, 'text-end text-[#87919a]')} dir="ltr">{transfer.date}</td>
+                <td className={cn(tdClass, 'text-start text-[#5c666e]')}>{transfer.country}</td>
+                <td className={cn(tdClass, 'text-start font-semibold text-[#2f3942]')}>{transfer.merchant}</td>
+                <td className={cn(tdClass, 'text-start text-[#6d767e]')}>{transfer.method}</td>
+                <td className={cn(tdClass, 'text-end font-sans font-semibold text-[#35404a]')} dir="ltr">{transfer.amount}</td>
+                <td className={cn(tdClass, 'text-end font-sans text-[#5c666e]')} dir="ltr">{transfer.netLocal}</td>
+                <td className={cn(tdClass, 'text-end font-sans font-semibold text-[#2fbe4f]')} dir="ltr">{transfer.netUsd}</td>
               </tr>
             ))}
           </tbody>
         </table>
-        {filteredTransfers.length === 0 && <div className="empty-state">لا توجد حوالات مطابقة لبحثك</div>}
+        {filteredTransfers.length === 0 && (
+          <div className="px-3 py-6 text-center text-[13px] text-[#929ba4]">
+            لا توجد حوالات مطابقة لبحثك
+          </div>
+        )}
       </div>
     </article>
   )

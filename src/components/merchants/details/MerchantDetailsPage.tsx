@@ -34,8 +34,8 @@ import SettleAccountModal from './settlement/SettleAccountModal'
 import SettlementsTable from './SettlementsTable'
 import SuspendConfirmDialog from './SuspendConfirmDialog'
 import TransfersTable from './TransfersTable'
-import './MerchantDetailsPage.css'
-import '../MerchantResponsive.css'
+import { cn } from '@/lib/cn'
+import { pageShell } from '../merchantTw'
 
 type MerchantDetailsPageProps = {
   merchantId: number
@@ -47,13 +47,14 @@ type MerchantDetailsPageProps = {
 
 type TabKey = 'transfers' | 'settlements'
 
-function MerchantDetailsPage({
-  merchantId,
-  onBack,
-  onViewSettlementsHistory,
-  initialTab = 'transfers',
-  highlightSettlementId = null,
-}: MerchantDetailsPageProps) {
+function MerchantDetailsPage({ page }: { page: MerchantDetailsPageProps }) {
+  const {
+    merchantId,
+    onBack,
+    onViewSettlementsHistory,
+    initialTab = 'transfers',
+    highlightSettlementId = null,
+  } = page
   const [merchant, setMerchant] = useState<Merchant | null>(null)
   const [details, setDetails] = useState<MerchantDetails | null>(null)
   const [methods, setMethods] = useState<MerchantPaymentMethod[]>([])
@@ -221,8 +222,8 @@ function MerchantDetailsPage({
 
   if (loading && !details) {
     return (
-      <div className="merchant-details-page" dir="rtl">
-        <div className="md-loading">جاري تحميل تفاصيل التاجر...</div>
+      <div className={cn('merchant-details-page', pageShell, 'grid gap-2.5 text-text min-[640px]:gap-[11px] min-[1024px]:gap-3')} dir="rtl">
+        <div className="md-loading grid min-h-[240px] place-items-center rounded-[7px] border border-line bg-surface text-[11px] text-text-muted">جاري تحميل تفاصيل التاجر...</div>
       </div>
     )
   }
@@ -230,90 +231,104 @@ function MerchantDetailsPage({
   if (!details || !merchant) return null
 
   return (
-    <div className="merchant-details-page" dir="rtl">
-      <nav className="md-breadcrumb" aria-label="مسار الصفحة">
-        <button type="button" onClick={onBack}>التجار</button>
+    <div className={cn('merchant-details-page', pageShell, 'grid gap-2.5 text-text min-[640px]:gap-[11px] min-[1024px]:gap-3')} dir="rtl">
+      <nav className="md-breadcrumb flex flex-wrap items-center gap-[5px] text-[9px] text-[#98a0a8] min-[640px]:text-[10px]" aria-label="مسار الصفحة">
+        <button type="button" className="border-0 bg-transparent font-inherit text-inherit hover:text-green" onClick={onBack}>التجار</button>
         <ChevronLeft size={12} />
-        <strong>{details.name}</strong>
+        <strong className="max-w-full overflow-hidden text-ellipsis whitespace-nowrap font-semibold text-[#4b5662]">{details.name}</strong>
       </nav>
 
       <MerchantHeader
-        details={details}
-        canSettle={canSettle}
-        onEdit={openEdit}
-        onSuspend={() => setSuspendOpen(true)}
-        onSettle={() => setSettleOpen(true)}
+        header={{
+          details,
+          canSettle,
+          onEdit: openEdit,
+          onSuspend: () => setSuspendOpen(true),
+          onSettle: () => setSettleOpen(true),
+        }}
       />
 
       <MerchantInfoStrip details={details} />
       <AccountSummaryCards details={details} />
 
       <PaymentMethodCards
-        methods={methods}
-        selectedId={selectedMethodId}
-        onSelect={(id) => setSelectedMethodId(id)}
-        onAdd={() => pushToast('إضافة وسيلة ستكون متاحة قريبًا', 'success')}
+        cards={{
+          methods,
+          selectedId: selectedMethodId,
+          onSelect: (id) => setSelectedMethodId(id),
+          onAdd: () => pushToast('إضافة وسيلة ستكون متاحة قريبًا', 'success'),
+        }}
       />
 
-      <div className="md-tabs" role="tablist" aria-label="سجلات التاجر">
-        <button type="button" role="tab" aria-selected={tab === 'transfers'} className={tab === 'transfers' ? 'is-active' : ''} onClick={() => setTab('transfers')}>
+      <div className="md-tabs flex gap-3.5 overflow-x-auto border-b border-line min-[640px]:gap-[18px]" role="tablist" aria-label="سجلات التاجر">
+        <button type="button" role="tab" aria-selected={tab === 'transfers'} className={cn('relative min-h-10 flex-none border-0 bg-transparent px-0.5 pb-2.5 text-[10px] text-text-muted min-[640px]:min-h-0 min-[640px]:text-[11px]', tab === 'transfers' && 'is-active font-bold text-green after:absolute after:inset-x-0 after:-bottom-px after:h-0.5 after:rounded-sm after:bg-green after:content-[\'\']')} onClick={() => setTab('transfers')}>
           سجل التحويلات
         </button>
-        <button type="button" role="tab" aria-selected={tab === 'settlements'} className={tab === 'settlements' ? 'is-active' : ''} onClick={() => setTab('settlements')}>
+        <button type="button" role="tab" aria-selected={tab === 'settlements'} className={cn('relative min-h-10 flex-none border-0 bg-transparent px-0.5 pb-2.5 text-[10px] text-text-muted min-[640px]:min-h-0 min-[640px]:text-[11px]', tab === 'settlements' && 'is-active font-bold text-green after:absolute after:inset-x-0 after:-bottom-px after:h-0.5 after:rounded-sm after:bg-green after:content-[\'\']')} onClick={() => setTab('settlements')}>
           سجل التسويات
         </button>
       </div>
 
       {tab === 'transfers' ? (
         <TransfersTable
-          rows={filteredTransfers}
-          selectedMethod={selectedMethod}
-          cycleFilter={cycleFilter}
-          statusFilter={statusFilter}
-          page={transferPage}
-          loading={loading}
-          onCycleChange={setCycleFilter}
-          onStatusChange={(value) => { setStatusFilter(value); setTransferPage(1) }}
-          onClearMethod={() => setSelectedMethodId(null)}
-          onPageChange={setTransferPage}
-          onExport={exportTransfers}
+          table={{
+            rows: filteredTransfers,
+            selectedMethod,
+            cycleFilter,
+            statusFilter,
+            page: transferPage,
+            loading,
+            onCycleChange: setCycleFilter,
+            onStatusChange: (value) => { setStatusFilter(value); setTransferPage(1) },
+            onClearMethod: () => setSelectedMethodId(null),
+            onPageChange: setTransferPage,
+            onExport: exportTransfers,
+          }}
         />
       ) : (
         <SettlementsTable
-          rows={filteredSettlements}
-          page={settlementPage}
-          loading={loading}
-          onPageChange={setSettlementPage}
-          onExport={exportSettlements}
-          onViewFullHistory={onViewSettlementsHistory}
+          table={{
+            rows: filteredSettlements,
+            page: settlementPage,
+            loading,
+            onPageChange: setSettlementPage,
+            onExport: exportSettlements,
+            onViewFullHistory: onViewSettlementsHistory,
+          }}
         />
       )}
 
       <MerchantFormModal
-        open={editOpen}
-        mode="edit"
-        initialValues={editValues}
-        loading={saving}
-        onClose={() => { if (!saving) setEditOpen(false) }}
-        onSubmit={handleSaveEdit}
+        dialog={{
+          open: editOpen,
+          mode: 'edit',
+          initialValues: editValues,
+          loading: saving,
+          onClose: () => { if (!saving) setEditOpen(false) },
+          onSubmit: handleSaveEdit,
+        }}
       />
 
       <SuspendConfirmDialog
-        open={suspendOpen}
-        merchantName={details.name}
-        isActive={details.status === 'نشط'}
-        loading={suspending}
-        onCancel={() => { if (!suspending) setSuspendOpen(false) }}
-        onConfirm={handleSuspend}
+        dialog={{
+          open: suspendOpen,
+          merchantName: details.name,
+          isActive: details.status === 'نشط',
+          loading: suspending,
+          onCancel: () => { if (!suspending) setSuspendOpen(false) },
+          onConfirm: handleSuspend,
+        }}
       />
 
       <SettleAccountModal
-        open={settleOpen}
-        details={details}
-        methods={methods}
-        loading={settling}
-        onClose={() => { if (!settling) setSettleOpen(false) }}
-        onConfirm={handleSettle}
+        dialog={{
+          open: settleOpen,
+          details,
+          methods,
+          loading: settling,
+          onClose: () => { if (!settling) setSettleOpen(false) },
+          onConfirm: handleSettle,
+        }}
       />
 
       <ToastStack items={toasts} onDismiss={dismissToast} />

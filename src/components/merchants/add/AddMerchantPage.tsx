@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { ArrowLeft, ChevronLeft, LoaderCircle } from 'lucide-react'
+import { cn } from '@/lib/cn'
 import {
   getActiveCountries,
   getActivePaymentMethodsByCountry,
@@ -25,8 +26,8 @@ import {
   type CreateMerchantPayload,
 } from './addMerchantTypes'
 import { validateAddMerchantForm } from './validateAddMerchantForm'
-import '../MerchantResponsive.css'
-import './AddMerchantPage.css'
+import { pageShell } from '../merchantTw'
+import { AddMerchantFormProvider } from './addMerchantFormContext'
 
 type AddMerchantPageProps = {
   mode?: 'create' | 'edit'
@@ -35,12 +36,13 @@ type AddMerchantPageProps = {
   onSuccess: (result: { id: number; name: string }) => void
 }
 
-function AddMerchantPage({
-  mode = 'create',
-  merchantId,
-  onBackToList,
-  onSuccess,
-}: AddMerchantPageProps) {
+function AddMerchantPage({ page }: { page: AddMerchantPageProps }) {
+  const {
+    mode = 'create',
+    merchantId,
+    onBackToList,
+    onSuccess,
+  } = page
   const formRef = useRef<HTMLFormElement>(null)
   const [values, setValues] = useState<AddMerchantFormValues>(emptyAddMerchantForm())
   const [initialSnapshot, setInitialSnapshot] = useState('')
@@ -203,73 +205,82 @@ function AddMerchantPage({
     : 'أدخل البيانات الأساسية، إعداد العمولة، وسائل الاستقبال وحساب الدخول للتاجر'
 
   if (booting) {
-    return <div className="add-merchant-page" dir="rtl"><div className="am-form-card" style={{ padding: 40, textAlign: 'center' }}>جاري التحميل...</div></div>
+    return (
+      <div className={cn('add-merchant-page', pageShell, 'grid gap-4 text-text')} dir="rtl">
+        <div className="am-form-card rounded-lg border border-line bg-surface p-10 text-center">جاري التحميل...</div>
+      </div>
+    )
   }
 
   return (
-    <div className="add-merchant-page" dir="rtl">
-      <nav className="am-breadcrumb" aria-label="مسار الصفحة">
-        <button type="button" onClick={askLeave}>التجار</button>
+    <div className={cn('add-merchant-page', pageShell, 'grid gap-4 text-text')} dir="rtl">
+      <nav className="am-breadcrumb flex flex-wrap items-center gap-[5px] text-[11px] text-text-muted" aria-label="مسار الصفحة">
+        <button type="button" className="border-0 bg-transparent font-inherit text-inherit hover:text-green" onClick={askLeave}>التجار</button>
         <ChevronLeft size={12} />
-        <strong>{title}</strong>
+        <strong className="font-semibold text-[#4b5662]">{title}</strong>
       </nav>
 
-      <header className="am-header">
+      <header className="am-header flex flex-col items-stretch gap-4 min-[561px]:flex-row min-[561px]:items-start min-[561px]:justify-between">
         <div className="am-header-copy">
-          <h1>{title}</h1>
-          <p>{subtitle}</p>
+          <h1 className="text-[22px] font-bold leading-[1.25] text-[#1f2730] min-[561px]:text-[28px]">{title}</h1>
+          <p className="mt-1.5 max-w-[520px] text-xs leading-[1.6] text-text-muted">{subtitle}</p>
         </div>
-        <button type="button" className="am-back" onClick={askLeave}>
+        <button
+          type="button"
+          className="am-back inline-flex min-h-10 w-full items-center justify-center gap-[7px] whitespace-nowrap rounded-md border border-[#e4e9ed] bg-surface px-3.5 text-xs text-[#56616c] hover:bg-[#f7f8f9] min-[561px]:w-auto"
+          onClick={askLeave}
+        >
           <ArrowLeft size={15} />
           رجوع لقائمة التجار
         </button>
       </header>
 
-      <div className="am-layout">
-        <form ref={formRef} className="am-form-card" onSubmit={handleSubmit} noValidate>
-          <div className="am-form-body">
-            <MerchantBasicInfoSection
-              values={values}
-              errors={errors}
-              countries={countries}
-              phonePrefix={country?.phonePrefix ?? '+20'}
-              disabled={loading}
-              onChange={updateField}
-              onBlurEmail={() => { void onBlurEmail() }}
-            />
-            <CommissionSection
-              values={values}
-              errors={errors}
-              currency={country?.currency ?? 'EGP'}
-              disabled={loading}
-              onChange={updateField}
-            />
-            <ReceivingMethodsSection
-              methods={values.methods}
-              availableMethods={availableMethods}
-              errors={errors}
-              disabled={loading}
-              onChange={(methods) => updateField('methods', methods)}
-            />
-            <MerchantAccountSection
-              createAccount={values.createAccount}
-              email={values.email}
-              disabled={loading}
-              onChange={(value) => updateField('createAccount', value)}
-            />
+      <AddMerchantFormProvider
+        value={{
+          values,
+          errors,
+          countries,
+          availableMethods,
+          phonePrefix: country?.phonePrefix ?? '+20',
+          currency: country?.currency ?? 'EGP',
+          country,
+          disabled: loading,
+          onChange: updateField,
+          onBlurEmail: () => { void onBlurEmail() },
+        }}
+      >
+      <div className="am-layout grid grid-cols-1 items-start gap-6 min-[1024px]:grid-cols-[minmax(0,1.9fr)_minmax(280px,1fr)]">
+        <form ref={formRef} className="am-form-card order-1 min-w-0 overflow-hidden rounded-lg border border-line bg-surface" onSubmit={handleSubmit} noValidate>
+          <div className="am-form-body grid gap-0 px-5 pb-2 pt-[18px]">
+            <MerchantBasicInfoSection />
+            <CommissionSection />
+            <ReceivingMethodsSection />
+            <MerchantAccountSection />
           </div>
 
-          <footer className="am-form-foot">
-            <button type="submit" className="am-save" disabled={loading}>
-              {loading && <LoaderCircle size={14} className="am-spinner" />}
+          <footer className="am-form-foot sticky bottom-0 z-[2] flex flex-col items-stretch gap-2 border-t border-[#edf0f2] bg-white px-5 py-3.5 pb-[calc(14px+env(safe-area-inset-bottom,0px))] min-[561px]:flex-row min-[561px]:items-center min-[561px]:justify-start min-[561px]:gap-2">
+            <button
+              type="submit"
+              className="am-save order-[-1] inline-flex min-h-11 w-full items-center justify-center gap-1.5 rounded-sm border border-[#151719] bg-[#151719] px-4 text-xs text-white disabled:cursor-not-allowed disabled:opacity-60 min-[561px]:order-none min-[561px]:min-h-10 min-[561px]:w-auto"
+              disabled={loading}
+            >
+              {loading && <LoaderCircle size={14} className="am-spinner animate-[am-spin_0.8s_linear_infinite]" />}
               {mode === 'edit' ? 'حفظ التعديلات' : 'حفظ التاجر'}
             </button>
-            <button type="button" className="am-cancel" disabled={loading} onClick={askLeave}>إلغاء</button>
+            <button
+              type="button"
+              className="am-cancel inline-flex min-h-11 w-full items-center justify-center gap-1.5 rounded-sm border border-[#e4e9ed] bg-[#f0f1f2] px-4 text-xs text-[#56616c] min-[561px]:min-h-10 min-[561px]:w-auto"
+              disabled={loading}
+              onClick={askLeave}
+            >
+              إلغاء
+            </button>
           </footer>
         </form>
 
-        <MerchantSummaryCard values={values} country={country} />
+        <MerchantSummaryCard />
       </div>
+      </AddMerchantFormProvider>
 
       <ToastStack items={toasts} onDismiss={dismissToast} />
     </div>

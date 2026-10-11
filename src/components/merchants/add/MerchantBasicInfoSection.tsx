@@ -1,45 +1,48 @@
 import FormSelect from '../../ui/FormSelect'
-import type { CatalogCountry } from '../../../data/merchantCatalog'
 import type { MerchantStatus } from '../../../data/merchantsData'
+import { useAddMerchantForm } from './addMerchantFormContext'
 import SegmentedControl from './SegmentedControl'
-import type { AddMerchantFieldErrors, AddMerchantFormValues } from './addMerchantTypes'
+import {
+  amControlInput,
+  amControlShell,
+  amError,
+  amField,
+  amFieldInput,
+  amGrid2,
+  amHint,
+  amSection,
+  amSectionHead,
+  amSelect,
+  amStep,
+} from '../merchantTw'
 
-type MerchantBasicInfoSectionProps = {
-  values: AddMerchantFormValues
-  errors: AddMerchantFieldErrors
-  countries: CatalogCountry[]
-  phonePrefix: string
-  disabled?: boolean
-  onChange: <K extends keyof AddMerchantFormValues>(key: K, value: AddMerchantFormValues[K]) => void
-  onBlurEmail: () => void
-}
-
-function MerchantBasicInfoSection({
-  values, errors, countries, phonePrefix, disabled, onChange, onBlurEmail,
-}: MerchantBasicInfoSectionProps) {
+function MerchantBasicInfoSection() {
+  const { values, errors, countries, phonePrefix, disabled, onChange, onBlurEmail } = useAddMerchantForm()
   return (
-    <section className="am-section">
-      <header className="am-section-head">
-        <span className="am-step">1</span>
-        <h2>البيانات الأساسية</h2>
+    <section className={amSection}>
+      <header className={amSectionHead}>
+        <span className={amStep}>1</span>
+        <h2 className="text-sm font-bold text-[#303b46]">البيانات الأساسية</h2>
       </header>
 
-      <label className="am-field">
-        <span>اسم التاجر <b>*</b></span>
+      <label className={amField}>
+        <span className="min-h-[18px] leading-[1.35]">اسم التاجر <b className="font-semibold text-danger">*</b></span>
         <input
+          className={amFieldInput}
           value={values.name}
           placeholder="محمد سامي"
           disabled={disabled}
           aria-invalid={Boolean(errors.name)}
           onChange={(event) => onChange('name', event.target.value)}
         />
-        {errors.name && <small className="am-error">{errors.name}</small>}
+        {errors.name && <small className={amError}>{errors.name}</small>}
       </label>
 
-      <div className="am-grid-2">
-        <label className="am-field">
-          <span>البريد الإلكتروني / اسم المستخدم <b>*</b></span>
+      <div className={amGrid2}>
+        <label className={amField}>
+          <span className="min-h-[18px] leading-[1.35]">البريد الإلكتروني / اسم المستخدم <b className="font-semibold text-danger">*</b></span>
           <input
+            className={amFieldInput}
             type="email"
             dir="ltr"
             value={values.email}
@@ -49,15 +52,16 @@ function MerchantBasicInfoSection({
             onChange={(event) => onChange('email', event.target.value)}
             onBlur={onBlurEmail}
           />
-          <em className="am-hint">يجب ألا يكون مستخدمًا لحساب آخر</em>
-          {errors.email && <small className="am-error">{errors.email}</small>}
+          <em className={amHint}>يجب ألا يكون مستخدمًا لحساب آخر</em>
+          {errors.email && <small className={amError}>{errors.email}</small>}
         </label>
 
-        <label className="am-field">
-          <span>رقم الهاتف <b>*</b></span>
-          <div className="am-phone">
-            <span className="am-phone-prefix" dir="ltr">{phonePrefix}</span>
+        <label className={amField}>
+          <span className="min-h-[18px] leading-[1.35]">رقم الهاتف <b className="font-semibold text-danger">*</b></span>
+          <div className={`am-phone ${amControlShell} [direction:ltr]`}>
+            <span className="am-phone-prefix whitespace-nowrap text-xs font-semibold text-[#7d868e]" dir="ltr">{phonePrefix}</span>
             <input
+              className={amControlInput}
               type="tel"
               dir="ltr"
               value={values.phoneLocal}
@@ -67,40 +71,44 @@ function MerchantBasicInfoSection({
               onChange={(event) => onChange('phoneLocal', event.target.value)}
             />
           </div>
-          <em className="am-hint am-hint-spacer" aria-hidden="true">&nbsp;</em>
-          {errors.phoneLocal && <small className="am-error">{errors.phoneLocal}</small>}
+          <em className={`${amHint} am-hint-spacer invisible select-none`} aria-hidden="true">&nbsp;</em>
+          {errors.phoneLocal && <small className={amError}>{errors.phoneLocal}</small>}
         </label>
       </div>
 
-      <div className="am-grid-2">
-        <label className="am-field">
-          <span>الدولة <b>*</b></span>
+      <div className={amGrid2}>
+        <label className={amField}>
+          <span className="min-h-[18px] leading-[1.35]">الدولة <b className="font-semibold text-danger">*</b></span>
           <FormSelect
-            className="am-select"
-            ariaLabel="الدولة"
-            value={values.countryId}
-            disabled={disabled}
-            onChange={(value) => onChange('countryId', value)}
-            options={countries.map((country) => ({
-              value: country.id,
-              label: `${country.flag} ${country.name} · ${country.currency}`,
-            }))}
+            field={{
+              className: amSelect,
+              ariaLabel: 'الدولة',
+              value: values.countryId,
+              disabled,
+              onChange: (value) => onChange('countryId', value),
+              options: countries.map((country) => ({
+                value: country.id,
+                label: `${country.flag} ${country.name} · ${country.currency}`,
+              })),
+            }}
           />
-          <em className="am-hint">من الدول المسجلة والمفعلة فقط</em>
-          {errors.countryId && <small className="am-error">{errors.countryId}</small>}
+          <em className={amHint}>من الدول المسجلة والمفعلة فقط</em>
+          {errors.countryId && <small className={amError}>{errors.countryId}</small>}
         </label>
 
-        <div className="am-field">
-          <span>حالة التاجر</span>
+        <div className={amField}>
+          <span className="min-h-[18px] leading-[1.35]">حالة التاجر</span>
           <SegmentedControl
-            ariaLabel="حالة التاجر"
-            value={values.status}
-            disabled={disabled}
-            onChange={(value) => onChange('status', value as MerchantStatus)}
-            options={[
-              { label: 'نشط', value: 'نشط' },
-              { label: 'موقوف', value: 'موقوف' },
-            ]}
+            control={{
+              ariaLabel: 'حالة التاجر',
+              value: values.status,
+              disabled,
+              onChange: (value) => onChange('status', value as MerchantStatus),
+              options: [
+                { label: 'نشط', value: 'نشط' },
+                { label: 'موقوف', value: 'موقوف' },
+              ],
+            }}
           />
         </div>
       </div>

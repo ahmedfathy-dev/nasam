@@ -2,11 +2,13 @@ import {
   ArrowLeftRight,
   BadgeDollarSign,
   ClipboardList,
-  CreditCard,
-  FileBarChart,
+  Percent,
+  Settings,
   Globe,
   Landmark,
+  Shield,
   LayoutDashboard,
+  UserRound,
   Users,
   Wallet,
   type LucideIcon,
@@ -19,45 +21,50 @@ export const navigation = [
   { label: 'الدول', icon: Globe },
   { label: 'وسائل الصرف', icon: Landmark },
   { label: 'أسعار الصرف', icon: BadgeDollarSign },
-  { label: 'التقارير', icon: FileBarChart },
+  { label: 'المشرفين', icon: UserRound },
+  { label: 'الأدوار والصلاحيات', icon: Shield },
+  { label: 'الإعدادات', icon: Settings },
 ] satisfies { label: string; icon: LucideIcon }[]
 
 export type TransferRow = {
   id: string
   date: string
-  sender: string
-  recipient: string
   country: string
+  merchant: string
   method: string
-  sent: string
-  received: string
-  status: 'مكتملة' | 'معلقة' | 'قيد المراجعة'
+  amount: string
+  netLocal: string
+  netUsd: string
 }
 
 export const recentTransfers: TransferRow[] = [
-  { id: 'TRX-1848', date: '06/10', sender: 'محمد علي', recipient: 'محمد سامي', country: 'مصر', method: 'Vodafone Cash', sent: '12,000 EGP', received: '17,760 LYD', status: 'مكتملة' },
-  { id: 'TRX-1847', date: '06/10', sender: 'سارة أحمد', recipient: 'مؤسسة النور', country: 'السعودية', method: 'STC Pay', sent: '1,500 SAR', received: '1,443 LYD', status: 'مكتملة' },
-  { id: 'TRX-1846', date: '05/10', sender: 'أحمد العتيبي', recipient: 'دار الخير', country: 'الإمارات', method: 'Bank Transfer', sent: '3,200 AED', received: '3,712 LYD', status: 'قيد المراجعة' },
-  { id: 'TRX-1845', date: '05/10', sender: 'ليث حمد', recipient: 'Yildiz Ticaret', country: 'تركيا', method: 'Papara', sent: '15,000 TRY', received: '17,430 LYD', status: 'مكتملة' },
-  { id: 'TRX-1844', date: '04/10', sender: 'حسن محسن', recipient: 'نور التجارية', country: 'مصر', method: 'Cash', sent: '20,000 EGP', received: '17,820 LYD', status: 'معلقة' },
-  { id: 'TRX-1843', date: '04/10', sender: 'خالد العوفي', recipient: 'مؤسسة الريان', country: 'السعودية', method: 'InstaPay', sent: '5,000 SAR', received: '4,800 LYD', status: 'مكتملة' },
-  { id: 'TRX-1842', date: '03/10', sender: 'سالم الهاشمي', recipient: 'دار الخير', country: 'الإمارات', method: 'Bank Transfer', sent: '2,000 AED', received: '2,320 LYD', status: 'قيد المراجعة' },
+  { id: 'TRX-1248', date: '05/10', country: 'مصر', merchant: 'محمد سامي', method: 'Vodafone Cash', amount: '12,000 EGP', netLocal: '11,760 EGP', netUsd: '$ 245.00' },
+  { id: 'TRX-1247', date: '05/10', country: 'السعودية', merchant: 'مؤسسة الرياض', method: 'STC Pay', amount: '2,500 SAR', netLocal: '2,450 SAR', netUsd: '$ 653.33' },
+  { id: 'TRX-1246', date: '05/10', country: 'مصر', merchant: 'محمد سامي', method: 'InstaPay', amount: '8,400 EGP', netLocal: '8,232 EGP', netUsd: '$ 171.50' },
+  { id: 'TRX-1245', date: '05/10', country: 'الإمارات', merchant: 'دار الخير', method: 'Bank Transfer', amount: '3,200 AED', netLocal: '3,136 AED', netUsd: '$ 854.50' },
+  { id: 'TRX-1244', date: '04/10', country: 'تركيا', merchant: 'Yildiz Ticaret', method: 'Papara', amount: '15,000 TRY', netLocal: '14,700 TRY', netUsd: '$ 429.82' },
+  { id: 'TRX-1243', date: '04/10', country: 'الأردن', merchant: 'عمان للصرافة', method: 'CIQ', amount: '420 JOD', netLocal: '412 JOD', netUsd: '$ 581.10' },
+  { id: 'TRX-1242', date: '04/10', country: 'مصر', merchant: 'نور للتجارة', method: 'InstaPay', amount: '20,000 EGP', netLocal: '19,600 EGP', netUsd: '$ 408.33' },
+  { id: 'TRX-1241', date: '04/10', country: 'السعودية', merchant: 'مؤسسة الرياض', method: 'Bank Transfer', amount: '5,000 SAR', netLocal: '4,900 SAR', netUsd: '$ 1,306.67' },
+  { id: 'TRX-1240', date: '03/10', country: 'عُمان', merchant: 'مسقط إكسبريس', method: 'Bank Transfer', amount: '300 OMR', netLocal: '294 OMR', netUsd: '$ 763.64' },
 ]
 
 export const metrics = [
-  { label: 'عدد عمليات الشهر', value: '38', change: '+12.8%', note: 'عن الشهر الماضي', icon: ClipboardList, color: 'green' },
-  { label: 'إجمالي قيمة عمليات الشهر', value: '$ 12,840', change: '+8.2%', note: 'مقارنة بالأمس', icon: Wallet, color: 'blue' },
-  { label: 'عدد عمليات اليوم', value: '642', change: '+6.4%', note: 'عن أمس', icon: ClipboardList, color: 'green' },
-  { label: 'إجمالي مصروف عمليات الشهر', value: '$ 214,560', change: '+14.6%', note: 'مقارنة بالشهر الماضي', icon: Wallet, color: 'green' },
-  { label: 'إجمالي مصروف عمليات اليوم', value: '$ 4,291', change: '-2.4%', note: 'مقارنة بالأمس', icon: CreditCard, color: 'orange' },
-  { label: 'إجمالي قيمة عمليات اليوم', value: '$ 210,269', change: '+9.1%', note: 'مقارنة بالأمس', icon: Wallet, color: 'green' },
+  { label: 'عدد حوالات اليوم', value: '38', change: '+12%', note: 'عن أمس', icon: ClipboardList },
+  { label: 'إجمالي قيمة حوالات اليوم', value: '$ 12,840', change: '+8.2%', note: 'عن أمس', icon: Wallet },
+  { label: 'عدد حوالات الشهر', value: '642', change: '+4.1%', note: 'عن الشهر الماضي', icon: ClipboardList },
+  { label: 'إجمالي قيمة حوالات الشهر', value: '$ 214,560', change: '+7%', note: 'عن الشهر الماضي', icon: Wallet },
+  { label: 'إجمالي عمولة حوالات الشهر', value: '$ 4,291', change: '+2.0%', note: 'متوسط', icon: Percent },
+  { label: 'صافي المبالغ المحصلة', value: '$ 210,269', change: '', note: 'بعد خصم العمولة', icon: Wallet },
 ]
 
 export const countryBreakdown = [
-  { label: 'ليبيا', percent: 62, color: 'green' },
-  { label: 'الإمارات', percent: 23, color: 'blue' },
-  { label: 'مصر', percent: 11, color: 'cyan' },
-  { label: 'لبنان', percent: 4, color: 'orange' },
+  { label: 'مصر', count: 271, amount: 90115, percent: 42, color: 'green' },
+  { label: 'السعودية', count: 148, amount: 49349, percent: 23, color: 'green' },
+  { label: 'الإمارات', count: 90, amount: 30038, percent: 14, color: 'green' },
+  { label: 'تركيا', count: 71, amount: 23601, percent: 11, color: 'teal' },
+  { label: 'الأردن', count: 38, amount: 12874, percent: 6, color: 'blue' },
+  { label: 'عُمان', count: 24, amount: 8583, percent: 4, color: 'slate' },
 ]
 
 export type NotificationItem = {

@@ -1,0 +1,14 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Serve real files and folders (JS, CSS, images, favicon).
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Every client route (/transfers, /merchants, /profile/edit, ...) loads the app.
+  RewriteRule ^ index.html [L]
+</IfModule>
+
+Options -Indexes
