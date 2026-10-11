@@ -236,8 +236,7 @@ function TradersPage() {
       <div
         className={cn(
           'traders-heading mb-3 flex min-h-0 flex-col items-stretch gap-[11px]',
-          'min-[640px]:min-h-[63px] min-[640px]:flex-row min-[640px]:items-start min-[640px]:gap-4',
-          'min-[1024px]:items-center',
+          'min-[640px]:min-h-[63px] min-[640px]:flex-row min-[640px]:items-center min-[640px]:justify-between min-[640px]:gap-4',
         )}
       >
         <div>
@@ -260,23 +259,23 @@ function TradersPage() {
         </div>
         <div
           className={cn(
-            'traders-heading-actions flex w-full flex-wrap items-center gap-[5px] [direction:ltr]',
+            'traders-heading-actions flex w-full flex-wrap items-center gap-[5px]',
             'min-[640px]:w-auto min-[1024px]:gap-2',
           )}
         >
-          <button
-            type="button"
-            className={cn(tradersPrimaryButton, 'max-[639px]:flex-1')}
-            onClick={() => navigateView({ kind: 'create' })}
-          >
-            <Plus size={14} />إضافة تاجر
-          </button>
           <button
             type="button"
             className={cn(tradersToolButton, 'max-[639px]:flex-1')}
             onClick={exportMerchants}
           >
             <Download size={13} />تصدير Excel
+          </button>
+          <button
+            type="button"
+            className={cn(tradersPrimaryButton, 'max-[639px]:flex-1')}
+            onClick={() => navigateView({ kind: 'create' })}
+          >
+            إضافة تاجر<Plus size={14} />
           </button>
         </div>
       </div>
