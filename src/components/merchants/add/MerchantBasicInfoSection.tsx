@@ -40,7 +40,7 @@ function MerchantBasicInfoSection() {
 
       <div className={amGrid2}>
         <label className={amField}>
-          <span className="min-h-[18px] leading-[1.35]">البريد الإلكتروني / اسم المستخدم <b className="font-semibold text-danger">*</b></span>
+          <span className="min-h-[18px] leading-[1.35] min-[561px]:min-h-9">البريد الإلكتروني / اسم المستخدم <b className="font-semibold text-danger">*</b></span>
           <input
             className={amFieldInput}
             type="email"
@@ -57,7 +57,7 @@ function MerchantBasicInfoSection() {
         </label>
 
         <label className={amField}>
-          <span className="min-h-[18px] leading-[1.35]">رقم الهاتف <b className="font-semibold text-danger">*</b></span>
+          <span className="min-h-[18px] leading-[1.35] min-[561px]:min-h-9">رقم الهاتف <b className="font-semibold text-danger">*</b></span>
           <div className={`am-phone ${amControlShell} [direction:ltr]`}>
             <span className="am-phone-prefix whitespace-nowrap text-xs font-semibold text-[#7d868e]" dir="ltr">{phonePrefix}</span>
             <input
