@@ -83,7 +83,7 @@ function ExchangeRatesPage() {
             >
               <div className="flex items-center justify-between gap-2">
                 <div className="flex min-w-0 items-center gap-2">
-                  <span className="inline-flex h-[22px] shrink-0 items-center rounded-[6px] bg-[#f2f4f6] px-1.5 text-[11px] font-semibold tracking-[0.01em] text-[#7b848d]">
+                  <span className="inline-flex h-[22px] shrink-0 items-center rounded-[6px] bg-[#eaf6ec] px-1.5 text-[11px] font-semibold tracking-[0.01em] text-[#23823d]">
                     {rate.code}
                   </span>
                   <span className="truncate text-[12px] text-[#9aa3ab]">
