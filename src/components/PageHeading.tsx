@@ -61,7 +61,7 @@ function PageHeading({ title, onNewTransfer, onImportExcel }: PageHeadingProps) 
                 onClick={() => setPeriod(item)}
                 className={cn(
                   'h-7 cursor-pointer rounded-md px-3 text-[12px] font-semibold',
-                  selected ? 'bg-[#111315] text-white' : 'bg-transparent text-[#6d767e] hover:text-[#1c242b]',
+                  selected ? 'bg-white text-black' : 'bg-transparent text-[#6d767e]',
                 )}
               >
                 {item}
