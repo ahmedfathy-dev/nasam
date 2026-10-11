@@ -68,7 +68,7 @@ function DashboardHeader({ header }: { header: DashboardHeaderState }) {
         <span>الرئيسية</span>
         <ChevronLeft size={13} />
         <strong className="font-medium text-[#4b5662]">
-          {activePage === 'الدول' ? 'إدارة الدول' : activePage === 'التجار' ? 'إدارة التجار' : activePage === 'وسائل الصرف' ? 'وسائل الدفع' : activePage === 'أسعار الصرف' ? 'أسعار الصرف اليومية' : window.location.pathname.startsWith('/profile/edit') ? 'تعديل الملف الشخصي' : activePage}
+          {activePage === 'الدول' ? 'إدارة الدول' : activePage === 'التجار' ? 'إدارة التجار' : activePage === 'أسعار الصرف' ? 'أسعار الصرف اليومية' : window.location.pathname.startsWith('/profile/edit') ? 'تعديل الملف الشخصي' : activePage}
         </strong>
       </div>
       <label

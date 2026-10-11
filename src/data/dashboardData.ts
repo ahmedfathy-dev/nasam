@@ -19,7 +19,7 @@ export const navigation = [
   { label: 'الحوالات', icon: ArrowLeftRight },
   { label: 'التجار', icon: Users },
   { label: 'الدول', icon: Globe },
-  { label: 'وسائل الصرف', icon: Landmark },
+  { label: 'وسائل الدفع', icon: Landmark },
   { label: 'أسعار الصرف', icon: BadgeDollarSign },
   { label: 'المشرفين', icon: UserRound },
   { label: 'الأدوار والصلاحيات', icon: Shield },

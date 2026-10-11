@@ -98,23 +98,23 @@ function PaymentMethodsPage() {
         </div>
       </header>
 
-      <section className="grid grid-cols-2 gap-3 min-[1024px]:grid-cols-4" aria-label="ملخص وسائل الدفع">
+      <section className="grid grid-cols-2 gap-2 min-[721px]:grid-cols-4" aria-label="ملخص وسائل الدفع">
         <StatCard label="إجمالي الوسائل" value={stats.total} />
         <StatCard label="وسائل مفعلة" value={stats.active} tone="green" />
         <StatCard label="وسائل موقوفة" value={stats.paused} />
         <StatCard label="أضيفت هذا الشهر" value={stats.addedThisMonth} />
       </section>
 
-      <section className="overflow-hidden rounded-2xl border border-[#eceff2] bg-white shadow-[0_1px_2px_rgb(20_30_40_/_4%)]">
-        <div className="flex flex-col items-stretch gap-3 px-4 py-3.5 min-[721px]:flex-row min-[721px]:items-center min-[721px]:justify-between">
+      <section className="overflow-hidden rounded-[12px] border border-[#eceff2] bg-white shadow-[0_1px_2px_rgb(20_30_40_/_4%)]">
+        <div className="flex flex-col items-stretch gap-3 px-4 py-4 min-[721px]:min-h-[83px] min-[721px]:flex-row min-[721px]:items-center min-[721px]:justify-between min-[721px]:px-9">
           <div className="text-start">
-            <h2 className="text-[15px] font-bold text-[#24303a]">قائمة وسائل الدفع</h2>
-            <p className="mt-0.5 text-[11px] text-[#9aa2a9]">
+            <h2 className="text-[18px] font-bold leading-[1.3] text-[#202a30]">قائمة وسائل الدفع</h2>
+            <p className="mt-0.5 text-[12px] text-[#7d858c]">
               {stats.total} وسائل · {stats.active} مفعلة · {stats.paused} موقوفة
             </p>
           </div>
           <div
-            className="inline-flex w-full items-center gap-0.5 self-start rounded-full bg-[#f2f4f5] p-1 min-[721px]:w-auto"
+            className="inline-flex w-full items-center gap-1 self-start rounded-lg bg-[#f3f4f6] p-1 min-[721px]:w-auto"
             role="tablist"
             aria-label="تصفية الحالة"
           >
@@ -129,9 +129,10 @@ function PaymentMethodsPage() {
                 role="tab"
                 aria-selected={statusFilter === value}
                 className={cn(
-                  'h-8 flex-1 cursor-pointer rounded-full border-0 bg-transparent px-3.5 text-[12px] font-medium text-[#7b848c]',
-                  'min-[721px]:flex-none',
-                  statusFilter === value && 'bg-white font-semibold text-[#2a333b] shadow-[0_1px_3px_rgb(20_30_40_/_12%)]',
+                  'h-7 flex-1 cursor-pointer rounded-md border-0 px-3 text-[12px] font-semibold transition-colors min-[721px]:flex-none',
+                  statusFilter === value
+                    ? 'bg-white text-black'
+                    : 'bg-transparent text-[#6d767e] hover:bg-white hover:text-black',
                 )}
                 onClick={() => setStatusFilter(value)}
               >
@@ -142,13 +143,25 @@ function PaymentMethodsPage() {
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[640px] border-collapse">
+          <table dir="rtl" className="w-full min-w-[640px] table-fixed border-collapse">
+            <colgroup>
+              <col className="w-[30%]" />
+              <col className="w-[40%]" />
+              <col className="w-[16%]" />
+              <col className="w-[14%]" />
+            </colgroup>
             <thead>
               <tr className="bg-[#f7f8f9]">
                 {['وسيلة الدفع', 'تاريخ الإضافة', 'الحالة', 'إجراءات'].map((heading) => (
                   <th
                     key={heading}
-                    className="px-4 py-3 text-start text-[12px] font-medium text-[#8d969e]"
+                    className={cn(
+                      'px-5 py-2 text-[10px] font-medium text-[#7f878d]',
+                      heading === 'وسيلة الدفع' && 'text-right',
+                      (heading === 'تاريخ الإضافة' || heading === 'الحالة') && 'text-center',
+                      heading === 'إجراءات' && 'text-left',
+                    )}
+                    dir={heading === 'إجراءات' ? 'ltr' : undefined}
                   >
                     {heading}
                   </th>
@@ -158,35 +171,35 @@ function PaymentMethodsPage() {
             <tbody>
               {filtered.length === 0 && (
                 <tr>
-                  <td colSpan={4} className="px-4 py-10 text-center text-[13px] text-[#8d969e]">
+                  <td colSpan={4} className="px-6 py-10 text-center text-[13px] text-[#8d969e]">
                     لا توجد وسائل مطابقة
                   </td>
                 </tr>
               )}
               {filtered.map((method) => (
                 <tr key={method.id} className="border-t border-[#f0f2f4]">
-                  <td className="px-4 py-3.5 text-start text-[13px] font-semibold text-[#2a3238]">{method.name}</td>
-                  <td className="px-4 py-3.5 text-start text-[13px] text-[#7d868e]">{method.addedOn}</td>
-                  <td className="px-4 py-3.5 text-start">
+                  <td className="px-5 py-[14px] text-start text-[12px] font-semibold text-[#15191c]">{method.name}</td>
+                  <td className="px-5 py-[14px] text-center text-[12px] text-[#4d5358]">{method.addedOn}</td>
+                  <td className="px-5 py-[14px] text-center">
                     <StatusBadge status={method.status} />
                   </td>
-                  <td className="px-4 py-3.5 text-start">
-                    <div className="flex items-center gap-1.5">
+                  <td className="px-5 py-[14px] text-start">
+                    <div dir="ltr" className="flex w-full items-center justify-start gap-1">
                       <button
                         type="button"
-                        className="grid size-8 cursor-pointer place-items-center rounded-lg border border-[#e6eaed] bg-white text-[#6d7780] hover:bg-[#f6f7f8]"
-                        aria-label={`تعديل ${method.name}`}
-                        onClick={() => setDialog({ kind: 'edit', method })}
-                      >
-                        <Pencil size={14} />
-                      </button>
-                      <button
-                        type="button"
-                        className="grid size-8 cursor-pointer place-items-center rounded-lg border border-[#f3d4d4] bg-white text-[#e15b5b] hover:bg-[#fff6f6]"
+                        className="grid size-7 cursor-pointer place-items-center rounded-[9px] border-0 bg-[#f1f1f1] text-[#f02d2d] hover:bg-[#e8e8e8]"
                         aria-label={`حذف ${method.name}`}
                         onClick={() => setDialog({ kind: 'delete', method })}
                       >
-                        <Trash2 size={14} />
+                        <Trash2 size={14} strokeWidth={2} />
+                      </button>
+                      <button
+                        type="button"
+                        className="grid size-7 cursor-pointer place-items-center rounded-[9px] border-0 bg-[#f1f1f1] text-[#3d4348] hover:bg-[#e8e8e8]"
+                        aria-label={`تعديل ${method.name}`}
+                        onClick={() => setDialog({ kind: 'edit', method })}
+                      >
+                        <Pencil size={14} strokeWidth={2} />
                       </button>
                     </div>
                   </td>
@@ -227,9 +240,9 @@ function PaymentMethodsPage() {
 
 function StatCard({ label, value, tone = 'ink' }: { label: string; value: number; tone?: 'ink' | 'green' }) {
   return (
-    <article className="grid min-h-[92px] content-center justify-items-center gap-1.5 rounded-2xl border border-[#eceff2] bg-white px-3 py-4 text-center shadow-[0_1px_2px_rgb(20_30_40_/_3%)]">
-      <span className="text-[12px] text-[#8b949c]">{label}</span>
-      <strong className={cn('text-[28px] font-bold leading-none tabular-nums', tone === 'green' ? 'text-[#1fa34a]' : 'text-[#1c242b]')}>
+    <article className="grid min-h-[58px] content-center justify-items-start gap-1 rounded-[9px] border border-[#eceff2] bg-white px-3 py-2 text-start shadow-[0_1px_2px_rgb(20_30_40_/_3%)]">
+      <span className="text-[9px] text-[#8b949c]">{label}</span>
+      <strong className={cn('text-[20px] font-bold leading-none tabular-nums', tone === 'green' ? 'text-[#1fa34a]' : 'text-[#1c242b]')}>
         {value}
       </strong>
     </article>
@@ -241,11 +254,11 @@ function StatusBadge({ status }: { status: PayoutMethod['status'] }) {
   return (
     <span
       className={cn(
-        'inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[12px] font-semibold',
-        active ? 'bg-[#e8f8ec] text-[#1f9a45]' : 'bg-[#fdecec] text-[#e14d4d]',
+        'inline-flex items-center gap-1.5 rounded-full px-2.5 py-[3px] text-[12px] font-semibold leading-[18px]',
+        active ? 'bg-[#e8f5e5] text-[#247a16]' : 'bg-[#fde9e9] text-[#e11d1d]',
       )}
     >
-      <span className={cn('size-1.5 rounded-full', active ? 'bg-[#2fbf5a]' : 'bg-[#ef5b5b]')} />
+      <span className={cn('size-2 rounded-full', active ? 'bg-[#2fbf32]' : 'bg-[#ef4444]')} />
       {active ? 'نشط' : 'موقوف'}
     </span>
   )

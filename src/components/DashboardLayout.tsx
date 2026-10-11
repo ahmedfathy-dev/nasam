@@ -26,7 +26,7 @@ function initialActivePage() {
   if (window.location.pathname.startsWith('/merchants')) return 'التجار'
   if (window.location.pathname.startsWith('/transfers')) return 'الحوالات'
   if (window.location.pathname.startsWith('/countries')) return 'الدول'
-  if (window.location.pathname.startsWith('/payment-methods')) return 'وسائل الصرف'
+  if (window.location.pathname.startsWith('/payment-methods')) return 'وسائل الدفع'
   if (window.location.pathname.startsWith('/exchange-rates')) return 'أسعار الصرف'
   if (window.location.pathname.startsWith('/profile')) return 'الملف الشخصي'
   if (window.location.pathname.startsWith('/supervisors')) return 'المشرفين'
@@ -70,7 +70,7 @@ function DashboardLayout({ onLogout }: DashboardLayoutProps) {
         window.history.pushState({}, '', '/countries')
       }
       window.dispatchEvent(new PopStateEvent('popstate'))
-    } else if (page === 'وسائل الصرف') {
+    } else if (page === 'وسائل الدفع') {
       if (window.location.pathname !== '/payment-methods') {
         window.history.pushState({}, '', '/payment-methods')
       }
@@ -216,7 +216,7 @@ function DashboardLayout({ onLogout }: DashboardLayoutProps) {
             <TradersPage />
           ) : activePage === 'الدول' ? (
             <CountriesPage />
-          ) : activePage === 'وسائل الصرف' ? (
+          ) : activePage === 'وسائل الدفع' ? (
             <PaymentMethodsPage />
           ) : activePage === 'أسعار الصرف' ? (
             <ExchangeRatesPage />

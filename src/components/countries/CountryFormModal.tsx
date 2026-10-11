@@ -264,10 +264,10 @@ function CountryFormModal({ dialog }: { dialog: CountryFormModalProps }) {
                   <button
                     type="button"
                     className={cn(
-                      '[grid-area:switch] inline-flex h-[22px] w-10 cursor-pointer items-center justify-start rounded-full border-0 bg-[#d5dade] p-0.5',
+                      '[grid-area:switch] relative h-[22px] w-10 cursor-pointer rounded-full border-0 bg-[#d5dade] p-0.5',
                       'min-[561px]:[grid-area:auto]',
                       'disabled:cursor-not-allowed disabled:opacity-55',
-                      method.active && 'justify-end bg-green',
+                      method.active && 'bg-green',
                     )}
                     role="switch"
                     aria-checked={method.active}
@@ -275,7 +275,12 @@ function CountryFormModal({ dialog }: { dialog: CountryFormModalProps }) {
                     disabled={loading}
                     onClick={() => updateMethod(method.id, { active: !method.active })}
                   >
-                    <i className="block size-[18px] rounded-full bg-surface shadow-[0_1px_3px_rgb(0_0_0_/_18%)]" />
+                    <i
+                      className={cn(
+                        'absolute top-0.5 size-[18px] rounded-full bg-surface shadow-[0_1px_3px_rgb(0_0_0_/_18%)] transition-[left,right] duration-200',
+                        method.active ? 'left-0.5' : 'right-0.5',
+                      )}
+                    />
                   </button>
                   <div
                     className={cn(
