@@ -39,12 +39,14 @@ function Sidebar({ nav }: { nav: SidebarState }) {
             <button
               key={label}
               type="button"
+              aria-current={active ? 'page' : undefined}
               className={cn(
-                'relative flex h-[37px] w-full cursor-pointer items-center gap-2.5 rounded-[6px] border border-transparent',
-                'bg-transparent px-2.5 text-end text-[#66717d]',
+                'relative flex h-[37px] w-full cursor-pointer items-center gap-2.5 rounded-[6px] border border-transparent px-2.5 text-end',
                 'transition-[background,color] duration-[140ms] ease-in-out',
                 'hover:bg-[#f1f1f1] hover:text-[#202a30] hover:[&_svg]:text-[#43a52e]',
-                active && 'bg-[#f1f1f1] font-semibold text-[#202a30] [&_svg]:text-[#43a52e]',
+                active
+                  ? 'bg-[#f1f1f1] font-semibold text-[#202a30] [&_svg]:text-[#43a52e]'
+                  : 'bg-transparent text-[#66717d]',
               )}
               onClick={() => onNavigate(label)}
             >
