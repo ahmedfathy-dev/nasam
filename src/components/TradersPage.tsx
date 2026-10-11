@@ -260,8 +260,8 @@ function TradersPage() {
         </div>
         <div
           className={cn(
-            'traders-heading-actions flex w-full flex-wrap items-center gap-[5px] [direction:rtl]',
-            'min-[640px]:w-auto min-[1024px]:gap-2 min-[1024px]:[direction:ltr]',
+            'traders-heading-actions flex w-full flex-wrap items-center gap-[5px] [direction:ltr]',
+            'min-[640px]:w-auto min-[1024px]:gap-2',
           )}
         >
           <button
