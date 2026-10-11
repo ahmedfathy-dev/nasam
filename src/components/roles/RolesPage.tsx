@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { Check, Lock, Plus, Search } from 'lucide-react'
+import { Check, CheckCheck, Lock, Plus, Search, X } from 'lucide-react'
 import { cn } from '@/lib/cn'
 import {
   initialRoles,
@@ -52,6 +52,24 @@ function RolesPage() {
     const cell = matrix[sectionIndex][actionIndex]
     if (cell === 'na') return
     matrix[sectionIndex][actionIndex] = cell === 'on' ? 'off' : 'on'
+    updateRole(selected.id, { matrix })
+    setSavedId(null)
+  }
+
+  function allowAllPermissions() {
+    if (!selected || selected.system) return
+    const matrix = selected.matrix.map((row) =>
+      row.map((cell) => (cell === 'na' ? 'na' : 'on')) as PermissionRow,
+    )
+    updateRole(selected.id, { matrix })
+    setSavedId(null)
+  }
+
+  function clearAllPermissions() {
+    if (!selected || selected.system) return
+    const matrix = selected.matrix.map((row) =>
+      row.map((cell) => (cell === 'na' ? 'na' : 'off')) as PermissionRow,
+    )
     updateRole(selected.id, { matrix })
     setSavedId(null)
   }
@@ -177,19 +195,19 @@ function RolesPage() {
 
         {selected && (
           <section className={cn(card, 'min-w-0 p-4')}>
-            <div className="flex flex-col items-stretch gap-3 min-[721px]:flex-row min-[721px]:items-start min-[721px]:justify-between">
+            <div className="flex flex-col items-stretch gap-3 min-[1100px]:flex-row min-[1100px]:items-start min-[1100px]:justify-between">
               <div className="text-start">
                 <h2 className="text-[20px] font-bold text-[#1a2128]">{selected.name}</h2>
                 <p className="mt-1 text-[12px] text-[#9aa3ab]">
                   {selected.supervisors} مشرف بهذا الدور · آخر تعديل {selected.updatedAt} بواسطة {selected.updatedBy}
                 </p>
               </div>
-              <div className="flex shrink-0 items-center gap-2 self-start">
+              <div className="flex w-full min-w-0 flex-wrap items-center gap-2 self-start min-[1100px]:w-auto min-[1100px]:flex-nowrap">
                 <button
                   type="button"
                   disabled={selected.system}
                   onClick={saveRole}
-                  className="inline-flex h-9 shrink-0 items-center whitespace-nowrap rounded-full bg-[#111315] px-3.5 text-[12px] font-semibold text-white enabled:hover:bg-[#292d2f] disabled:cursor-not-allowed disabled:opacity-40"
+                  className="inline-flex h-9 min-w-[120px] flex-1 items-center justify-center whitespace-nowrap rounded-full bg-[#111315] px-3.5 text-[12px] font-semibold text-white enabled:hover:bg-[#292d2f] disabled:cursor-not-allowed disabled:opacity-40 min-[1100px]:min-w-0 min-[1100px]:flex-none"
                 >
                   {savedId === selected.id ? 'تم الحفظ' : 'حفظ الصلاحيات'}
                 </button>
@@ -197,7 +215,7 @@ function RolesPage() {
                   type="button"
                   disabled={selected.system}
                   onClick={deleteRole}
-                  className="inline-flex h-9 shrink-0 items-center whitespace-nowrap rounded-full border border-[#f0c2c2] bg-white px-3.5 text-[12px] font-semibold text-[#e15b5b] enabled:hover:bg-[#fdf6f6] disabled:cursor-not-allowed disabled:opacity-40"
+                  className="inline-flex h-9 min-w-[120px] flex-1 items-center justify-center whitespace-nowrap rounded-full border border-[#f0c2c2] bg-white px-3.5 text-[12px] font-semibold text-[#e15b5b] enabled:hover:bg-[#fdf6f6] disabled:cursor-not-allowed disabled:opacity-40 min-[1100px]:min-w-0 min-[1100px]:flex-none"
                 >
                   حذف الدور
                 </button>
@@ -233,6 +251,26 @@ function RolesPage() {
               </div>
             ) : (
               <div className="mt-4">
+                <div className="mb-2 grid gap-2 min-[560px]:grid-cols-2">
+                  <button
+                    type="button"
+                    disabled={selected.system}
+                    onClick={allowAllPermissions}
+                    className="inline-flex min-h-9 w-full items-center justify-center gap-2 rounded-lg border border-[#b7e7c4] bg-[#f3fbf5] px-3 py-2 text-[12px] font-semibold text-[#23823d] transition-colors hover:bg-[#e8f7ec] disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    <CheckCheck size={15} aria-hidden="true" />
+                    السماح بكل الصلاحيات
+                  </button>
+                  <button
+                    type="button"
+                    disabled={selected.system}
+                    onClick={clearAllPermissions}
+                    className="inline-flex min-h-9 w-full items-center justify-center gap-2 rounded-lg border border-[#f0c2c2] bg-white px-3 py-2 text-[12px] font-semibold text-[#d94b4b] transition-colors hover:bg-[#fdf6f6] disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    <X size={15} aria-hidden="true" />
+                    إلغاء كل الصلاحيات
+                  </button>
+                </div>
                 <div>
                   <div className="grid grid-cols-[minmax(72px,1.15fr)_repeat(6,minmax(0,1fr))] border-b border-[#f0f2f4] px-1 py-2">
                     <span className="text-start text-[12px] font-medium text-[#9aa3ab]">القسم</span>

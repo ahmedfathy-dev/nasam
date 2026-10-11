@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { ChevronDown, ChevronLeft, ChevronRight, Download, Eye, Pencil, Plus, Search, Trash2 } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Download, Eye, Pencil, Plus, Search, Trash2 } from 'lucide-react'
 import { cn } from '@/lib/cn'
 import type { Merchant } from '../data/merchantsData'
 import { useToast } from '../hooks/useToast'
@@ -314,7 +314,7 @@ function TradersPage() {
           className={cn(
             'merchant-filters grid grid-cols-2 gap-[7px] border-b border-[#edf0f2] py-2',
             'min-[640px]:grid-cols-3',
-            'min-[1024px]:grid-cols-[minmax(190px,1fr)_minmax(110px,0.43fr)_minmax(110px,0.43fr)_auto]',
+            'min-[1024px]:grid-cols-[minmax(190px,1fr)_minmax(110px,0.43fr)_minmax(110px,0.43fr)]',
           )}
         >
           <label
@@ -367,17 +367,6 @@ function TradersPage() {
               options: ['كل الحالات', 'نشط', 'موقوف'].map((item) => ({ label: item, value: item })),
             }}
           />
-          <button
-            type="button"
-            className={cn(
-              'merchant-filter-shortcut col-span-full flex h-10 min-w-0 items-center justify-center',
-              'rounded-[6px] border border-[#e7eaed] bg-[#f8f9fa] px-2.5 text-[9px] text-[#5d666d]',
-              'whitespace-nowrap min-[640px]:h-9 min-[1024px]:col-span-1',
-            )}
-            onClick={() => { setCountry('كل الدول'); setStatus('كل الحالات'); setSearch(''); setPage(1) }}
-          >
-            كل الفلاتر <ChevronDown size={12} />
-          </button>
         </div>
         <div className={cn('merchant-table-scroll flex-1 overflow-auto max-lg:overscroll-x-contain', merchantDesktopTable)}>
           <table className="merchant-table w-full min-w-[860px] border-collapse whitespace-nowrap">

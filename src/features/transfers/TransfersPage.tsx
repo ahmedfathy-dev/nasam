@@ -14,6 +14,7 @@ import type { ImportTab } from './types'
 
 type Screen = 'list' | 'create'
 type Modal = 'import' | null
+const TRANSFERS_PER_PAGE = 12
 
 function TransfersPage() {
   const [screen, setScreen] = useState<Screen>(() => (
@@ -26,6 +27,7 @@ function TransfersPage() {
   const [currency, setCurrency] = useState('كل العملات')
   const [status, setStatus] = useState('كل الحالات')
   const [period, setPeriod] = useState('الفترة هذا الشهر')
+  const [currentPage, setCurrentPage] = useState(1)
   const [excelName, setExcelName] = useState('transfers_egypt_oct.xlsx')
   const [importRows, setImportRows] = useState(initialImportRows)
   const [importTab, setImportTab] = useState<ImportTab>('valid')
@@ -48,6 +50,11 @@ function TransfersPage() {
       && (currency === 'كل العملات' || item.currency === currency)
       && (status === 'كل الحالات' || item.status === status)
   }), [transfers, search, country, currency, status])
+  const totalPages = Math.ceil(filteredTransfers.length / TRANSFERS_PER_PAGE)
+
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [search, country, currency, status])
 
   function goCreate() {
     setScreen('create')
@@ -119,7 +126,14 @@ function TransfersPage() {
       {screen === 'list' ? (
         <TransferList
           list={{
-            transfers: filteredTransfers,
+            transfers: filteredTransfers.slice(
+              (currentPage - 1) * TRANSFERS_PER_PAGE,
+              currentPage * TRANSFERS_PER_PAGE,
+            ),
+            totalCount: filteredTransfers.length,
+            currentPage,
+            totalPages,
+            pageSize: TRANSFERS_PER_PAGE,
             notice,
             noticeTone,
             search,
@@ -135,6 +149,7 @@ function TransfersPage() {
             onCreate: goCreate,
             onImport: openImport,
             onExport: exportTransfers,
+            onPageChange: setCurrentPage,
           }}
         />
       ) : (
@@ -198,6 +213,10 @@ function TransfersPage() {
 
 type TransferListState = {
   transfers: Transfer[]
+  totalCount: number
+  currentPage: number
+  totalPages: number
+  pageSize: number
   notice: string
   noticeTone: 'success' | 'error'
   search: string
@@ -213,6 +232,7 @@ type TransferListState = {
   onCreate: () => void
   onImport: () => void
   onExport: () => void
+  onPageChange: (page: number) => void
 }
 
 function NoticeBanner({ tone, children }: { tone: 'success' | 'error'; children: ReactNode }) {
@@ -234,10 +254,12 @@ function NoticeBanner({ tone, children }: { tone: 'success' | 'error'; children:
 
 function TransferList({ list }: { list: TransferListState }) {
   const {
-    transfers, notice, noticeTone, search, country, currency, status, period,
-    onSearch, onCountry, onCurrency, onStatus, onPeriod, onCreate, onImport, onExport,
+    transfers, totalCount, currentPage, totalPages, pageSize, notice, noticeTone, search, country, currency, status, period,
+    onSearch, onCountry, onCurrency, onStatus, onPeriod, onCreate, onImport, onExport, onPageChange,
   } = list
   const visibleTransfers = transfers ?? []
+  const firstVisible = totalCount === 0 ? 0 : (currentPage - 1) * pageSize + 1
+  const lastVisible = Math.min(currentPage * pageSize, totalCount)
   return (
     <>
       <div
@@ -324,7 +346,7 @@ function TransferList({ list }: { list: TransferListState }) {
             <tbody>
               {visibleTransfers.map((item, index) => (
                 <tr key={`${item.number}-${index}`} className="hover:bg-[#fafcfd]">
-                  <td className="h-[42px] border-b border-[#f0f2f4] px-[9px] text-start text-[10px] text-[#929aa1]">{index + 1}</td>
+                  <td className="h-[42px] border-b border-[#f0f2f4] px-[9px] text-start text-[10px] text-[#929aa1]">{firstVisible + index}</td>
                   <td className="h-[42px] border-b border-[#f0f2f4] px-[9px] text-start text-[10px] font-semibold text-[#343d44]" dir="ltr">{item.number}</td>
                   <td className="h-[42px] border-b border-[#f0f2f4] px-[9px] text-start text-[10px] text-[#545d64]" dir="ltr">{item.date}</td>
                   <td className="h-[42px] border-b border-[#f0f2f4] px-[9px] text-start text-[10px] text-[#545d64]">{item.country}</td>
@@ -356,16 +378,41 @@ function TransferList({ list }: { list: TransferListState }) {
           )}
         </div>
         <div className="flex min-h-[42px] items-center justify-between gap-2 px-0.5 pt-1 text-[10px] text-[#858e95]">
-          <span>عرض ١-{visibleTransfers.length} من ٦٤٢</span>
-          <div className="flex items-center gap-[3px]">
-            <PaginationButton ariaLabel="السابق"><ChevronRight size={13} /></PaginationButton>
-            <PaginationButton>٥٤</PaginationButton>
-            <span>…</span>
-            <PaginationButton>٣</PaginationButton>
-            <PaginationButton>٢</PaginationButton>
-            <PaginationButton current>١</PaginationButton>
-            <PaginationButton ariaLabel="التالي"><ChevronLeft size={13} /></PaginationButton>
-          </div>
+          <span>
+            عرض {new Intl.NumberFormat('ar-EG').format(firstVisible)}-{new Intl.NumberFormat('ar-EG').format(lastVisible)} من {new Intl.NumberFormat('ar-EG').format(totalCount)}
+          </span>
+          {totalPages > 1 && (
+            <div className="flex items-center gap-[3px]">
+              <PaginationButton
+                ariaLabel="السابق"
+                disabled={currentPage === 1}
+                onClick={() => onPageChange(currentPage - 1)}
+              >
+                <ChevronRight size={13} />
+              </PaginationButton>
+              {getPaginationItems(currentPage, totalPages).map((item, index) => (
+                item === 'ellipsis'
+                  ? <span key={`ellipsis-${index}`} className="px-1">…</span>
+                  : (
+                    <PaginationButton
+                      key={item}
+                      current={item === currentPage}
+                      ariaLabel={`الصفحة ${item}`}
+                      onClick={() => onPageChange(item)}
+                    >
+                      {new Intl.NumberFormat('ar-EG').format(item)}
+                    </PaginationButton>
+                  )
+              ))}
+              <PaginationButton
+                ariaLabel="التالي"
+                disabled={currentPage === totalPages}
+                onClick={() => onPageChange(currentPage + 1)}
+              >
+                <ChevronLeft size={13} />
+              </PaginationButton>
+            </div>
+          )}
         </div>
       </section>
     </>
@@ -376,25 +423,51 @@ function PaginationButton({
   children,
   current,
   ariaLabel,
+  disabled,
+  onClick,
 }: {
   children: ReactNode
   current?: boolean
   ariaLabel?: string
+  disabled?: boolean
+  onClick?: () => void
 }) {
   return (
     <button
       type="button"
       aria-label={ariaLabel}
+      aria-current={current ? 'page' : undefined}
+      disabled={disabled || current}
+      onClick={onClick}
       className={cn(
         'grid h-[26px] min-w-[26px] place-items-center border px-[5px] text-[9px] rounded-[5px]',
         current
           ? 'border-green bg-green text-white'
-          : 'cursor-pointer border-[#e7eaed] bg-surface text-[#68727a]',
+          : 'border-[#e7eaed] bg-surface text-[#68727a]',
+        !disabled && !current && 'cursor-pointer',
+        disabled && !current && 'cursor-not-allowed opacity-50',
       )}
     >
       {children}
     </button>
   )
+}
+
+function getPaginationItems(currentPage: number, totalPages: number): Array<number | 'ellipsis'> {
+  if (totalPages <= 7) {
+    return Array.from({ length: totalPages }, (_, index) => index + 1)
+  }
+
+  const pages = new Set([1, totalPages, currentPage - 1, currentPage, currentPage + 1])
+  const sortedPages = [...pages].filter((page) => page >= 1 && page <= totalPages).sort((a, b) => a - b)
+  const items: Array<number | 'ellipsis'> = []
+
+  sortedPages.forEach((page, index) => {
+    if (index > 0 && page - sortedPages[index - 1] > 1) items.push('ellipsis')
+    items.push(page)
+  })
+
+  return items
 }
 
 function FilterSelect({ field }: { field: { value: string; options: string[]; onChange: (value: string) => void; ariaLabel: string } }) {
