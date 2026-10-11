@@ -27,6 +27,18 @@ function ExchangeRateSection() {
         )}
       >
         <div className="flex min-w-0 flex-auto items-start gap-[8px]">
+          <button
+            type="button"
+            className={cn(
+              'mt-px grid size-[30px] flex-none place-items-center rounded-full border-0',
+              'cursor-pointer bg-green-soft text-green',
+              'hover:bg-[#e2f4df]',
+            )}
+            aria-label="تحديث أسعار الصرف"
+            onClick={refresh}
+          >
+            <RefreshCw size={15} />
+          </button>
           <div className="min-w-0">
             <h2
               id="exchange-title"
@@ -43,18 +55,6 @@ function ExchangeRateSection() {
               تُحدَّث تلقائيًا ولحظيًا عبر API لكل عملات الدول التي تدعمها مؤسسة نسام
             </p>
           </div>
-          <button
-            type="button"
-            className={cn(
-              'mt-px grid size-[30px] flex-none place-items-center rounded-full border-0',
-              'cursor-pointer bg-green-soft text-green',
-              'hover:bg-[#e2f4df]',
-            )}
-            aria-label="تحديث أسعار الصرف"
-            onClick={refresh}
-          >
-            <RefreshCw size={15} />
-          </button>
         </div>
 
         <div
