@@ -30,7 +30,7 @@ function ExchangeRateSection() {
           <div className="min-w-0">
             <h2
               id="exchange-title"
-              className="text-[14px] font-bold leading-[1.35] text-[#1f2730] min-[561px]:text-[16px]"
+              className="text-[13px] font-bold leading-[1.35] text-[#1f2730] min-[721px]:text-[14px]"
             >
               أسعار الصرف مقابل الدولار
             </h2>

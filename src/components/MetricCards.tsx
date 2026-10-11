@@ -20,8 +20,8 @@ function MetricCards() {
           key={label}
         >
           <div className="min-w-0 flex-1 text-start">
-            <div className="text-[12px] leading-[1.35] text-[#8b949c]">{label}</div>
-            <div className="mt-2 text-end font-sans text-[26px] font-bold leading-none text-[#1c242b]" dir="ltr">
+            <div className="text-[11px] leading-[1.35] text-[#8b949c]">{label}</div>
+            <div className="mt-1.5 text-end font-sans text-[18px] font-bold leading-none text-[#1c242b] min-[721px]:text-[20px]" dir="ltr">
               {value}
             </div>
             <div className="mt-2 flex items-center gap-1.5 whitespace-nowrap text-[11px]">

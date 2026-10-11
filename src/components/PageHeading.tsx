@@ -21,11 +21,11 @@ function PageHeading({ title, onNewTransfer, onImportExcel }: PageHeadingProps) 
       )}
     >
       <div className="min-w-0 text-start">
-        <div className="mb-1 text-[12px] text-[#9aa3ab]">الأربعاء، 7 أكتوبر 2026</div>
-        <h1 className="text-[28px] font-bold leading-[1.25] text-[#1c242b] max-[720px]:text-[22px]">
+        <div className="mb-0.5 text-[11px] text-[#9aa3ab]">الأربعاء، 7 أكتوبر 2026</div>
+        <h1 className="text-[20px] font-bold leading-[1.3] text-[#1c242b] min-[721px]:text-[22px]">
           {title}
         </h1>
-        <p className="mt-1.5 text-[13px] leading-[1.6] text-[#8b949c]">
+        <p className="mt-1 text-[12px] leading-[1.5] text-[#8b949c]">
           نظرة عامة على حركة الحوالات — أكتوبر 2026
         </p>
       </div>
